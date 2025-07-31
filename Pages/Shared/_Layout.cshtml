@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - MLEFIN</title>
+
+    <!-- Bootstrap 5 -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" />
+
+    <!-- Render page-specific styles -->
+    @RenderSection("Styles", required: false)
+    <style>
+        body {
+            min-height: 100vh;
+            display: flex;
+        }
+
+        .sidebar {
+            width: 250px;
+            background-color: #343a40;
+            color: white;
+            flex-shrink: 0;
+        }
+
+            .sidebar a {
+                color: #ddd;
+                text-decoration: none;
+                display: block;
+                padding: 10px 20px;
+            }
+
+                .sidebar a:hover {
+                    background-color: #495057;
+                }
+
+        .main-content {
+            flex-grow: 1;
+            padding: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="sidebar d-flex flex-column">
+        <h4 class="text-center mt-3">MLEFIN</h4>
+        <a href="/Dashboard" class="text-light ps-3">Dashboard</a>
+        <a href="/Bank">Bank</a>
+        <a href="/Sales">Sales</a>
+        <a href="/Expense">Expense</a>
+        <a href="/VendorPurchase">Vendor Purchase</a>
+        <a href="/Parts">Parts</a>
+        <a href="/OtherIncome">Other Income</a>
+        <a href="/Returns">Returns</a>
+        <a href="/Payroll">Payroll</a>
+        <a href="/Shareholders">Shareholders</a>
+        <a href="/Reports">Reports</a>
+        <a href="/Settings">Settings</a>
+    </div>
+
+    <div class="main-content">
+        @RenderBody()
+    </div>
+
+    <!-- JQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    @RenderSection("Scripts", required: false)
+
+</body>
+</html>

@@ -1,0 +1,120 @@
+﻿@page
+@model MLEFIN.Pages.CompanyCategoryPageModel
+@{
+    Layout = "_Layout";
+    ViewData["Title"] = "Company Categories";
+}
+
+<div class="container">
+    <div class="d-flex align-items-center mb-4">
+        <img src="~/images/logo.png" alt="MLEFIN Logo" height="50" />
+        <h2 class="ms-3">Company Categories</h2>
+    </div>
+
+    <div class="mb-3">
+        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#categoryModal">
+            Add Category
+        </button>
+    </div>
+
+    @if (!ViewData.ModelState.IsValid)
+    {
+        <div class="alert alert-danger mb-3">
+            <h5>Please fix the following errors:</h5>
+            <div asp-validation-summary="All" class="text-danger"></div>
+        </div>
+    }
+
+    <div class="table-responsive">
+        <table class="table table-striped table-hover">
+            <thead>
+                <tr>
+                    <th>Category Name</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var category in Model.Categories)
+                {
+                    <tr>
+                        <td>@category.CategoryName</td>
+                        <td>
+                            <button type="button" class="btn btn-sm btn-secondary"
+                                    data-bs-toggle="modal"
+                                    data-bs-target="#categoryModal"
+                                    onclick="loadCategoryData(@category.CompanyCategoryID)">
+                                Edit
+                            </button>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Category Modal -->
+    <div class="modal fade" id="categoryModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <form method="post" asp-page-handler="Save">
+                    @Html.AntiForgeryToken()
+                    <div class="modal-header bg-primary text-white">
+                        <h5 class="modal-title">@(Model.CurrentCategory.CompanyCategoryID == 0 ? "Add Category" : "Edit Category")</h5>
+                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <input type="hidden" asp-for="CurrentCategory.CompanyCategoryID" />
+
+                        <div class="mb-3">
+                            <label asp-for="CurrentCategory.CategoryName" class="form-label">Category Name *</label>
+                            <input asp-for="CurrentCategory.CategoryName" class="form-control" required />
+                            <span asp-validation-for="CurrentCategory.CategoryName" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary">Save</button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    <script>
+        function loadCategoryData(categoryId) {
+            fetch(`?handler=Edit&id=${categoryId}`)
+                .then(response => response.text())
+                .then(html => {
+                    // Extract the modal content from the response
+                    const parser = new DOMParser();
+                    const doc = parser.parseFromString(html, 'text/html');
+                    const modalContent = doc.querySelector('.modal-body').innerHTML;
+
+                    // Update the modal content
+                    document.querySelector('#categoryModal .modal-body').innerHTML = modalContent;
+
+                    // Update the modal title
+                    const modalTitle = document.querySelector('#categoryModal .modal-title');
+                    modalTitle.textContent = 'Edit Category';
+                });
+        }
+
+        // Reset modal when closed
+        document.getElementById('categoryModal').addEventListener('hidden.bs.modal', function() {
+            const modalBody = this.querySelector('.modal-body');
+            modalBody.innerHTML = `
+                <input type="hidden" name="CurrentCategory.CompanyCategoryID" value="0" />
+                <div class="mb-3">
+                    <label class="form-label">Category Name *</label>
+                    <input name="CurrentCategory.CategoryName" class="form-control" required />
+                    <span class="text-danger"></span>
+                </div>
+            `;
+            const modalTitle = this.querySelector('.modal-title');
+            modalTitle.textContent = 'Add Category';
+        });
+    </script>
+}

@@ -1,0 +1,1011 @@
+﻿@page
+@model MLEFIN.Pages.BankModel
+@{
+    Layout = "/Pages/Shared/_Layout.cshtml";
+    ViewData["Title"] = "Bank";
+}
+
+<div class="container-fluid">
+    <h2 class="mb-4">Bank Transactions</h2>
+
+    <div class="mb-3 d-flex flex-column flex-md-row justify-content-between gap-2">
+        <button class="btn btn-outline-secondary" type="button" data-bs-toggle="collapse" data-bs-target="#filterSection" aria-expanded="false">
+            <i class="fas fa-filter"></i> Filter & Sort
+        </button>
+        <div class="d-flex flex-column flex-sm-row gap-2">
+            <a href="/Sales" class="btn btn-outline-success">
+                <i class="fas fa-chart-line"></i> View Sales Records
+            </a>
+            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#transactionModal" onclick="openAddTransactionModal()">
+                <i class="fas fa-plus"></i> Add New Transaction
+            </button>
+        </div>
+    </div>
+
+    <!-- Filter Section -->
+    <div class="collapse mb-4" id="filterSection">
+        <div class="card card-body bg-light">
+            <form method="get">
+                <div class="row g-3">
+                    <div class="col-lg-3 col-md-6">
+                        <label for="DateFrom" class="form-label">Date From</label>
+                        <input asp-for="DateFrom" class="form-control" type="date" />
+                    </div>
+                    <div class="col-lg-3 col-md-6">
+                        <label for="DateTo" class="form-label">Date To</label>
+                        <input asp-for="DateTo" class="form-control" type="date" />
+                    </div>
+                    <div class="col-lg-3 col-md-6">
+                        <label for="AccountFilter" class="form-label">Account</label>
+                        <select asp-for="AccountFilter" asp-items="Model.AccountFilterList" class="form-select"></select>
+                    </div>
+                    <div class="col-lg-3 col-md-6">
+                        <label for="TypeFilter" class="form-label">Type</label>
+                        <select asp-for="TypeFilter" class="form-select">
+                            <option value="">All Types</option>
+                            <option value="Credit">Credit</option>
+                            <option value="Debit">Debit</option>
+                            <option value="Deposit">Deposit</option>
+                            <option value="Withdrawal">Withdrawal</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="row g-3 mt-1">
+                    <div class="col-lg-3 col-md-6">
+                        <label for="DepositTypeFilter" class="form-label">Deposit Type</label>
+                        <select asp-for="DepositTypeFilter" asp-items="Model.DepositTypeFilterList" class="form-select"></select>
+                    </div>
+                    <div class="col-lg-3 col-md-6">
+                        <label for="PayeeFilter" class="form-label">Payee</label>
+                        <select asp-for="PayeeFilter" asp-items="Model.PayeeFilterList" class="form-select"></select>
+                    </div>
+                    <div class="col-lg-3 col-md-6">
+                        <label for="DescriptionFilter" class="form-label">Description</label>
+                        <input asp-for="DescriptionFilter" class="form-control" placeholder="Search description..." />
+                    </div>
+                    <div class="col-lg-3 col-md-6">
+                        <label for="CategoryFilter" class="form-label">Category</label>
+                        <select asp-for="CategoryFilter" class="form-select">
+                            <option value="">All Categories</option>
+                            @foreach (var category in Model.CategoryFilterOptions)
+                            {
+                                <option value="@category.Value">@category.Text</option>
+                            }
+                        </select>
+                    </div>
+                </div>
+                <div class="row g-3 mt-1">
+                    <div class="col-lg-3 col-md-6">
+                        <label for="AmountFrom" class="form-label">Amount From</label>
+                        <input asp-for="AmountFrom" class="form-control" type="number" step="0.01" min="0" placeholder="Min amount..." />
+                    </div>
+                    <div class="col-lg-3 col-md-6">
+                        <label for="AmountTo" class="form-label">Amount To</label>
+                        <input asp-for="AmountTo" class="form-control" type="number" step="0.01" min="0" placeholder="Max amount..." />
+                    </div>
+                    <div class="col-lg-3 col-md-6">
+                        <label for="SortBy" class="form-label">Sort By</label>
+                        <select asp-for="SortBy" asp-items="Model.SortByList" class="form-select"></select>
+                    </div>
+                    <div class="col-lg-3 col-md-6 d-flex align-items-end">
+                        <div class="w-100 d-flex flex-column flex-sm-row gap-2">
+                            <button type="submit" class="btn btn-primary flex-fill">Apply Filters</button>
+                            <a asp-page="/Bank" class="btn btn-outline-secondary flex-fill">Clear All</a>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    @{
+        var hasTransactionErrors = false;
+        if (!ViewData.ModelState.IsValid)
+        {
+            hasTransactionErrors = ViewData.ModelState.Any(x =>
+            (x.Key.StartsWith("Transaction.") || string.IsNullOrEmpty(x.Key)) &&
+            x.Value.Errors.Any() &&
+            !x.Key.Equals("SortBy") &&
+            !x.Key.Equals("DateFrom") &&
+            !x.Key.Equals("DateTo") &&
+            !x.Key.Equals("TypeFilter") &&
+            !x.Key.Equals("PayeeFilter") &&
+            !x.Key.Equals("DescriptionFilter") &&
+            !x.Key.Equals("AmountFrom") &&
+            !x.Key.Equals("AmountTo") &&
+            !x.Key.Equals("CategoryFilter") &&
+            !x.Key.Equals("AccountFilter") &&
+            !x.Key.Equals("DepositTypeFilter"));
+        }
+    }
+
+    @if (hasTransactionErrors)
+    {
+        <div class="alert alert-danger mb-3">
+            <h5>Please fix the following errors:</h5>
+            @foreach (var modelState in ViewData.ModelState)
+            {
+                if ((modelState.Key.StartsWith("Transaction.") || string.IsNullOrEmpty(modelState.Key)) &&
+                modelState.Value.Errors.Any() &&
+                !modelState.Key.Equals("SortBy") &&
+                !modelState.Key.Equals("DateFrom") &&
+                !modelState.Key.Equals("DateTo") &&
+                !modelState.Key.Equals("TypeFilter") &&
+                !modelState.Key.Equals("PayeeFilter") &&
+                !modelState.Key.Equals("DescriptionFilter") &&
+                !modelState.Key.Equals("AmountFrom") &&
+                !modelState.Key.Equals("AmountTo") &&
+                !modelState.Key.Equals("CategoryFilter") &&
+                !modelState.Key.Equals("AccountFilter") &&
+                !modelState.Key.Equals("DepositTypeFilter"))
+                {
+                    foreach (var error in modelState.Value.Errors)
+                    {
+                        <div class="text-danger">@error.ErrorMessage</div>
+                    }
+                }
+            }
+        </div>
+    }
+
+    <!-- Quick Stats -->
+    <div class="row mb-4 g-3">
+        <div class="col-xl-3 col-lg-6 col-md-6">
+            <div class="card text-center h-100">
+                <div class="card-body d-flex flex-column justify-content-center">
+                    <h6 class="card-title text-success mb-2">Total Deposits</h6>
+                    <h4 class="card-text mb-0">@Model.Transactions.Where(t => t.Type == "Deposit").Sum(t => t.Amount).ToString("C2")</h4>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-3 col-lg-6 col-md-6">
+            <div class="card text-center h-100">
+                <div class="card-body d-flex flex-column justify-content-center">
+                    <h6 class="card-title text-danger mb-2">Total Withdrawals</h6>
+                    <h4 class="card-text mb-0">@Model.Transactions.Where(t => t.Type == "Withdrawal" || t.Type == "Debit").Sum(t => t.Amount).ToString("C2")</h4>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-3 col-lg-6 col-md-6">
+            <div class="card text-center h-100">
+                <div class="card-body d-flex flex-column justify-content-center">
+                    <h6 class="card-title text-info mb-2">Sales Transactions</h6>
+                    <h4 class="card-text mb-0">@Model.Transactions.Where(t => t.Description == "From Sales").Count()</h4>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-3 col-lg-6 col-md-6">
+            <div class="card text-center h-100">
+                <div class="card-body d-flex flex-column justify-content-center">
+                    <h6 class="card-title text-primary mb-2">Current Balance</h6>
+                    <h4 class="card-text mb-0">@(Model.Transactions.LastOrDefault()?.Balance.ToString("C2") ?? "$0.00")</h4>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Transactions Table -->
+    <div class="table-responsive mt-4">
+        <table class="table table-striped table-bordered table-hover">
+            <thead class="table-dark">
+                <tr>
+                    <th class="sticky-col">Date</th>
+                    <th class="d-none d-lg-table-cell">Account</th>
+                    <th>Amount</th>
+                    <th class="d-none d-md-table-cell">Description</th>
+                    <th class="d-none d-lg-table-cell">Type</th>
+                    <th class="d-none d-lg-table-cell">Deposit Type</th>
+                    <th class="d-none d-xl-table-cell">Check #</th>
+                    <th class="d-none d-md-table-cell">Payee</th>
+                    <th class="d-none d-lg-table-cell">Category</th>
+                    <th>Balance</th>
+                    <th class="no-sort">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var transaction in Model.Transactions)
+                {
+                    <tr class="@(transaction.Description == "From Sales" ? "table-info" : "")">
+                        <td class="sticky-col bg-white @(transaction.Description == "From Sales" ? "table-info" : "")">
+                            <div class="d-flex flex-column">
+                                <strong class="text-nowrap">@transaction.TransactionDate.ToString("ddd, MMM dd")</strong>
+                                <small class="text-muted">@transaction.TransactionDate.Year</small>
+                            </div>
+                        </td>
+                        <td class="d-none d-lg-table-cell">
+                            <span class="badge @(transaction.Account == "Bank" ? "bg-primary" : "bg-success")">
+                                @transaction.Account
+                            </span>
+                        </td>
+                        <td class="@(transaction.Type == "Deposit" || transaction.Type == "Credit" ? "text-success" : "text-danger")">
+                            <strong>@transaction.Amount.ToString("C2")</strong>
+                        </td>
+                        <td class="d-none d-md-table-cell">
+                            @if (transaction.Description == "From Sales")
+                            {
+                                <span class="badge bg-info me-1">SALES</span>
+                            }
+                            @transaction.Description
+                        </td>
+                        <td class="d-none d-lg-table-cell">
+                            <span class="badge @(GetTypeBadgeClass(transaction.Type))">
+                                @transaction.Type
+                            </span>
+                        </td>
+                        <td class="d-none d-lg-table-cell">
+                            @if (!string.IsNullOrEmpty(transaction.DepositType))
+                            {
+                                <span class="badge @(GetDepositTypeBadgeClass(transaction.DepositType))">
+                                    @transaction.DepositType
+                                </span>
+                            }
+                            else
+                            {
+                                <span class="text-muted">-</span>
+                            }
+                        </td>
+                        <td class="d-none d-xl-table-cell">
+                            @if (!string.IsNullOrEmpty(transaction.CheckNumber))
+                            {
+                                <span class="badge bg-primary">@transaction.CheckNumber</span>
+                            }
+                            else
+                            {
+                                <span class="text-muted">-</span>
+                            }
+                        </td>
+                        <td class="d-none d-md-table-cell">
+                            @if (!string.IsNullOrEmpty(transaction.CheckNumber))
+                            {
+                                <i class="fas fa-money-check text-primary me-1"></i>
+                                <span title="Check #@transaction.CheckNumber">@transaction.Payer</span>
+                            }
+                            else
+                            {
+                                @transaction.Payee
+                            }
+                        </td>
+                        <td class="d-none d-lg-table-cell">
+                            @if (transaction.CompanyCategory != null)
+                            {
+                                <span class="badge bg-secondary">@transaction.CompanyCategory.CategoryName</span>
+                            }
+                            else
+                            {
+                                <span class="text-muted">No Category</span>
+                            }
+                        </td>
+                        <td class="@(transaction.Balance >= 0 ? "text-success" : "text-danger")">
+                            <strong>@transaction.Balance.ToString("C2")</strong>
+                        </td>
+                        <td class="action-cell">
+                            @if (transaction.Description != "From Sales")
+                            {
+                                <div class="btn-group-vertical btn-group-sm d-lg-none" role="group">
+                                    <button type="button" class="btn btn-sm btn-warning" onclick="editTransaction(@transaction.Id)">
+                                        <i class="fas fa-edit"></i>
+                                    </button>
+                                    <form method="post" asp-page-handler="Delete" asp-route-id="@transaction.Id" class="d-inline">
+                                        @Html.AntiForgeryToken()
+                                        <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Are you sure you want to delete this transaction?');">
+                                            <i class="fas fa-trash"></i>
+                                        </button>
+                                    </form>
+                                </div>
+                                <div class="d-none d-lg-flex gap-1">
+                                    <button type="button" class="btn btn-sm btn-warning" onclick="editTransaction(@transaction.Id)">
+                                        <i class="fas fa-edit"></i> Edit
+                                    </button>
+                                    <form method="post" asp-page-handler="Delete" asp-route-id="@transaction.Id" class="d-inline">
+                                        @Html.AntiForgeryToken()
+                                        <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Are you sure you want to delete this transaction?');">
+                                            <i class="fas fa-trash"></i> Delete
+                                        </button>
+                                    </form>
+                                </div>
+                            }
+                            else
+                            {
+                                <a href="/Sales" class="btn btn-sm btn-info">
+                                    <i class="fas fa-external-link-alt"></i> <span class="d-none d-lg-inline">View in Sales</span>
+                                </a>
+                            }
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+
+    @if (!Model.Transactions.Any())
+    {
+        <div class="alert alert-info text-center">
+            <h5>No transactions found</h5>
+            <p>Start by <a href="/Sales">creating a sales record</a> or add a manual transaction using the button above.</p>
+        </div>
+    }
+</div>
+
+<!-- Add/Edit Transaction Modal -->
+<div class="modal fade" id="transactionModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-xl modal-dialog-scrollable">
+        <div class="modal-content">
+            <form method="post" id="transactionForm">
+                @Html.AntiForgeryToken()
+                <div class="modal-header bg-primary text-white">
+                    <h5 class="modal-title" id="modalTitle">@(Model.Transaction.Id == 0 ? "Add New Transaction" : "Edit Transaction")</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <input type="hidden" asp-for="Transaction.Id" id="transactionId" />
+
+                    @if (Model.Transaction.Id == 0)
+                    {
+                        <!-- Sales Transaction Checkbox (only for new transactions) -->
+                        <div class="row mb-4">
+                            <div class="col-12">
+                                <div class="form-check form-switch">
+                                    <input asp-for="IsSalesTransaction" class="form-check-input" id="salesCheck" onchange="handleSalesTransaction()" />
+                                    <label class="form-check-label" for="salesCheck">
+                                        <strong>Sales Transaction</strong> (Auto-fills Type as Deposit, Description as "From Sales")
+                                    </label>
+                                </div>
+                                <div class="alert alert-warning mt-2" id="salesWarning" style="display: none;">
+                                    <small>
+                                        <i class="fas fa-exclamation-triangle"></i>
+                                        <strong>Note:</strong> This creates a Bank transaction only. To create a complete sales record with totals and calculations, use the <a href="/Sales" target="_blank">Sales page</a> instead.
+                                    </small>
+                                </div>
+                            </div>
+                        </div>
+                    }
+
+                    <div class="row mb-3 g-3">
+                        <div class="col-md-6">
+                            <label asp-for="Transaction.Account" class="form-label fw-bold">Account *</label>
+                            <select asp-for="Transaction.Account" asp-items="Model.AccountList" class="form-select" id="accountField"></select>
+                            <span asp-validation-for="Transaction.Account" class="text-danger"></span>
+                        </div>
+                        <div class="col-md-6">
+                            <label asp-for="Transaction.TransactionDate" class="form-label fw-bold">Date *</label>
+                            <input asp-for="Transaction.TransactionDate" class="form-control" type="date" id="transactionDate" />
+                            <span asp-validation-for="Transaction.TransactionDate" class="text-danger"></span>
+                        </div>
+                    </div>
+
+                    <div class="row mb-3 g-3">
+                        <div class="col-lg-4 col-md-6">
+                            <label asp-for="Transaction.Amount" class="form-label fw-bold">Amount *</label>
+                            <input asp-for="Transaction.Amount" class="form-control" type="number" step="0.01" id="amount" />
+                            <span asp-validation-for="Transaction.Amount" class="text-danger"></span>
+                        </div>
+                        <div class="col-lg-4 col-md-6">
+                            <label asp-for="Transaction.Type" class="form-label fw-bold">Type *</label>
+                            <select asp-for="Transaction.Type" asp-items="Model.TypeList" class="form-select" id="typeField" onchange="handleTypeChange()"></select>
+                            <span asp-validation-for="Transaction.Type" class="text-danger"></span>
+                        </div>
+                        <div class="col-lg-4 col-md-12" id="depositTypeSection">
+                            <label asp-for="Transaction.DepositType" class="form-label fw-bold">Deposit Type <span id="depositTypeRequired" style="color: red;">*</span></label>
+                            <select asp-for="Transaction.DepositType" asp-items="Model.DepositTypeList" class="form-select" id="depositTypeField"></select>
+                            <span asp-validation-for="Transaction.DepositType" class="text-danger"></span>
+                        </div>
+                    </div>
+
+                    <div class="row mb-3 g-3">
+                        <div class="col-md-6">
+                            <label asp-for="Transaction.Description" class="form-label fw-bold">Description *</label>
+                            <input asp-for="Transaction.Description" class="form-control" id="descriptionField" />
+                            <span asp-validation-for="Transaction.Description" class="text-danger"></span>
+                        </div>
+                        <div class="col-md-6" id="payeeSection">
+                            <label asp-for="Transaction.CompanyID" class="form-label fw-bold">Payee (Company) *</label>
+                            <select asp-for="Transaction.CompanyID" asp-items="Model.CompanyList" class="form-select" id="companyField"></select>
+                            <span asp-validation-for="Transaction.CompanyID" class="text-danger"></span>
+                        </div>
+                    </div>
+
+                    <!-- Check Information Section -->
+                    <div class="row mb-3 g-3" id="checkSection" style="display: none;">
+                        <div class="col-12">
+                            <h6 class="text-primary border-bottom pb-2 mb-3">Check Information</h6>
+                        </div>
+                        <div class="col-md-6">
+                            <label asp-for="Transaction.CheckNumber" class="form-label">Check Number</label>
+                            <input asp-for="Transaction.CheckNumber" class="form-control" id="checkNumberField" placeholder="Enter check number..." />
+                            <span asp-validation-for="Transaction.CheckNumber" class="text-danger"></span>
+                        </div>
+                        <div class="col-md-6">
+                            <label asp-for="Transaction.Payer" class="form-label">Payer Name</label>
+                            <input asp-for="Transaction.Payer" class="form-control" id="payerField" placeholder="Enter payer name..." />
+                            <span asp-validation-for="Transaction.Payer" class="text-danger"></span>
+                            <small class="form-text text-muted">Person or entity who wrote the check</small>
+                        </div>
+                    </div>
+
+                    <div class="row mb-3 g-3">
+                        <div class="col-md-6">
+                            <label asp-for="Transaction.CompanyCategoryID" class="form-label">Category</label>
+                            <select asp-for="Transaction.CompanyCategoryID" asp-items="Model.CategoryList" class="form-select" id="categoryField"></select>
+                            <span asp-validation-for="Transaction.CompanyCategoryID" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer flex-column flex-sm-row gap-2">
+                    <button type="submit" class="btn btn-primary w-100 w-sm-auto" id="submitBtn">
+                        <i class="fas fa-save"></i> @(Model.Transaction.Id == 0 ? "Save Transaction" : "Update Transaction")
+                    </button>
+                    <button type="button" class="btn btn-secondary w-100 w-sm-auto" data-bs-dismiss="modal">
+                        <i class="fas fa-times"></i> Cancel
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@functions {
+    string GetTypeBadgeClass(string type)
+    {
+        return type switch
+        {
+            "Deposit" => "bg-success",
+            "Credit" => "bg-success",
+            "Withdrawal" => "bg-danger",
+            "Debit" => "bg-danger",
+            _ => "bg-secondary"
+        };
+    }
+
+    string GetDepositTypeBadgeClass(string depositType)
+    {
+        return depositType switch
+        {
+            "CC ACH" => "bg-primary",
+            "Check" => "bg-info",
+            "Cash" => "bg-warning text-dark",
+            _ => "bg-secondary"
+        };
+    }
+}
+
+@section Scripts {
+    <script>
+        // Global variables
+        var transactionModal;
+        var transactionForm;
+
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('Bank page initializing...');
+
+            // Initialize modal elements
+            var transactionModalElement = document.getElementById('transactionModal');
+            if (transactionModalElement) {
+                transactionModal = new bootstrap.Modal(transactionModalElement);
+
+                transactionModalElement.addEventListener('shown.bs.modal', function() {
+                    console.log('Transaction modal shown');
+                    handleTypeChange();
+                    handleSalesTransaction();
+                });
+
+                transactionModalElement.addEventListener('hidden.bs.modal', function() {
+                    console.log('Transaction modal hidden');
+                    resetTransactionForm();
+                });
+            }
+
+            transactionForm = document.getElementById('transactionForm');
+
+            // Initialize edit mode if needed
+            initializeEditMode();
+
+            // Initialize type change handler
+            handleTypeChange();
+
+            console.log('Bank page initialization complete');
+        });
+
+        // Open Add Transaction Modal
+        function openAddTransactionModal() {
+            console.log('Opening add transaction modal');
+            document.getElementById('modalTitle').textContent = 'Add New Transaction';
+            document.getElementById('submitBtn').innerHTML = '<i class="fas fa-save"></i> Save Transaction';
+            resetTransactionForm();
+            if (transactionModal) {
+                transactionModal.show();
+            }
+        }
+
+        // Handle Type Change
+        function handleTypeChange() {
+            const typeField = document.getElementById('typeField');
+            const depositTypeSection = document.getElementById('depositTypeSection');
+            const depositTypeRequired = document.getElementById('depositTypeRequired');
+            const checkSection = document.getElementById('checkSection');
+
+            if (typeField && depositTypeSection) {
+                if (typeField.value === 'Deposit') {
+                    depositTypeSection.style.display = 'block';
+                    if (depositTypeRequired) depositTypeRequired.style.display = 'inline';
+
+                    // Show check section for deposits
+                    if (checkSection) checkSection.style.display = 'block';
+                } else {
+                    depositTypeSection.style.display = 'none';
+                    if (depositTypeRequired) depositTypeRequired.style.display = 'none';
+
+                    // Hide check section for non-deposits
+                    if (checkSection) checkSection.style.display = 'none';
+
+                    // Clear deposit type and check info when not a deposit
+                    const depositTypeField = document.getElementById('depositTypeField');
+                    const checkNumberField = document.getElementById('checkNumberField');
+                    const payerField = document.getElementById('payerField');
+
+                    if (depositTypeField) depositTypeField.value = '';
+                    if (checkNumberField) checkNumberField.value = '';
+                    if (payerField) payerField.value = '';
+                }
+            }
+        }
+
+        // Handle Sales Transaction
+        function handleSalesTransaction() {
+            const salesCheck = document.getElementById('salesCheck');
+            if (!salesCheck) return; // Only available for new transactions
+
+            const typeField = document.getElementById('typeField');
+            const descriptionField = document.getElementById('descriptionField');
+            const companyField = document.getElementById('companyField');
+            const payeeSection = document.getElementById('payeeSection');
+            const depositTypeField = document.getElementById('depositTypeField');
+            const checkSection = document.getElementById('checkSection');
+            const salesWarning = document.getElementById('salesWarning');
+
+            if (salesCheck && salesCheck.checked) {
+                // Show warning
+                if (salesWarning) salesWarning.style.display = 'block';
+
+                // Set values for sales transaction
+                if (typeField) typeField.value = 'Deposit';
+                if (descriptionField) descriptionField.value = 'From Sales';
+                if (companyField) companyField.value = '';
+
+                // DON'T force CC ACH - let user choose deposit type
+                // if (depositTypeField) depositTypeField.value = 'CC ACH';
+
+                // Disable and gray out fields
+                if (typeField) {
+                    typeField.disabled = true;
+                    typeField.style.backgroundColor = '#e9ecef';
+                }
+                if (descriptionField) {
+                    descriptionField.disabled = true;
+                    descriptionField.style.backgroundColor = '#e9ecef';
+                }
+                // Don't disable deposit type - let user choose
+                // if (depositTypeField) {
+                //     depositTypeField.disabled = true;
+                //     depositTypeField.style.backgroundColor = '#e9ecef';
+                // }
+
+                // Hide payee section for sales transactions but KEEP check section
+                if (payeeSection) payeeSection.style.display = 'none';
+                // if (checkSection) checkSection.style.display = 'none'; // Keep check section visible
+
+                // Ensure deposit type section is visible
+                handleTypeChange();
+            } else {
+                // Hide warning
+                if (salesWarning) salesWarning.style.display = 'none';
+
+                // Re-enable and restore normal appearance
+                if (typeField) {
+                    typeField.disabled = false;
+                    typeField.style.backgroundColor = '';
+                }
+                if (descriptionField) {
+                    descriptionField.disabled = false;
+                    descriptionField.style.backgroundColor = '';
+                }
+                if (depositTypeField) {
+                    depositTypeField.disabled = false;
+                    depositTypeField.style.backgroundColor = '';
+                }
+
+                // Show payee section
+                if (payeeSection) payeeSection.style.display = 'block';
+
+                // Clear values when unchecked
+                if (typeField) typeField.value = '';
+                if (descriptionField) descriptionField.value = '';
+                if (depositTypeField) depositTypeField.value = '';
+
+                // Update sections visibility
+                handleTypeChange();
+            }
+        }
+
+        // Reset Transaction Form
+        function resetTransactionForm() {
+            console.log('Resetting transaction form');
+
+            if (transactionForm) {
+                // Clear form fields
+                document.getElementById('transactionId').value = '0';
+                document.getElementById('transactionDate').value = new Date().toISOString().split('T')[0];
+                document.getElementById('amount').value = '';
+                document.getElementById('descriptionField').value = '';
+
+                // Reset select fields
+                document.getElementById('accountField').value = '';
+                document.getElementById('typeField').value = '';
+                document.getElementById('depositTypeField').value = '';
+                document.getElementById('companyField').value = '';
+                document.getElementById('categoryField').value = '';
+
+                // Clear check fields
+                const checkNumberField = document.getElementById('checkNumberField');
+                const payerField = document.getElementById('payerField');
+                if (checkNumberField) checkNumberField.value = '';
+                if (payerField) payerField.value = '';
+
+                // Reset sales checkbox if it exists
+                const salesCheck = document.getElementById('salesCheck');
+                if (salesCheck) {
+                    salesCheck.checked = false;
+                }
+
+                // Clear validation messages
+                transactionForm.querySelectorAll('.text-danger').forEach(span => span.textContent = '');
+
+                // Reset sales transaction state
+                handleSalesTransaction();
+                handleTypeChange();
+
+                // Re-enable all fields that might have been disabled
+                const allFields = transactionForm.querySelectorAll('input, select, textarea');
+                allFields.forEach(field => {
+                    if (field.name !== 'IsSalesTransaction') {
+                        field.disabled = false;
+                        field.style.backgroundColor = '';
+                    }
+                });
+
+                // Show payee section
+                const payeeSection = document.getElementById('payeeSection');
+                if (payeeSection) payeeSection.style.display = 'block';
+            }
+        }
+
+        // Edit Transaction
+        function editTransaction(transactionId) {
+            console.log('Editing transaction:', transactionId);
+            var currentUrl = new URL(window.location);
+            var params = new URLSearchParams(currentUrl.search);
+            params.set('handler', 'Edit');
+            params.set('id', transactionId);
+            window.location.href = currentUrl.pathname + '?' + params.toString();
+        }
+
+        // Initialize edit mode if needed
+        function initializeEditMode() {
+            var isEditMode = @(Model.Transaction.Id != 0 ? "true" : "false");
+            if (isEditMode) {
+                setTimeout(function() {
+                    document.getElementById('modalTitle').textContent = 'Edit Transaction';
+                    document.getElementById('submitBtn').innerHTML = '<i class="fas fa-save"></i> Update Transaction';
+                    if (transactionModal) {
+                        transactionModal.show();
+                    }
+
+                    // Ensure everything is set up after modal is shown
+                    setTimeout(function() {
+                        handleTypeChange();
+                        // For edit mode, don't show sales transaction checkbox or handle it
+                        const payeeSection = document.getElementById('payeeSection');
+                        if (payeeSection) payeeSection.style.display = 'block';
+                    }, 300);
+                }, 200);
+            }
+        }
+
+        // Add form submission debugging
+        if (transactionForm) {
+            transactionForm.addEventListener('submit', function(e) {
+                console.log('Bank form submitting...');
+                console.log('Transaction ID:', document.getElementById('transactionId').value);
+                const salesCheck = document.getElementById('salesCheck');
+                console.log('Sales Transaction:', salesCheck ? salesCheck.checked : 'N/A');
+                console.log('Account:', document.getElementById('accountField').value);
+                console.log('Type:', document.getElementById('typeField').value);
+                console.log('Amount:', document.getElementById('amount').value);
+                console.log('Description:', document.getElementById('descriptionField').value);
+
+                const checkNumberField = document.getElementById('checkNumberField');
+                const payerField = document.getElementById('payerField');
+                if (checkNumberField && payerField) {
+                    console.log('Check Number:', checkNumberField.value);
+                    console.log('Payer:', payerField.value);
+                }
+            });
+        }
+
+        // Make functions globally available
+        window.handleSalesTransaction = handleSalesTransaction;
+        window.handleTypeChange = handleTypeChange;
+        window.editTransaction = editTransaction;
+        window.openAddTransactionModal = openAddTransactionModal;
+    </script>
+
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
+
+<style>
+    /* Responsive design improvements */
+    .container-fluid {
+        max-width: 100%;
+        padding-left: 15px;
+        padding-right: 15px;
+    }
+
+    .table-responsive {
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        border-radius: 0.375rem;
+    }
+
+    .table {
+        margin-bottom: 0;
+        min-width: 1000px;
+    }
+
+        .table th {
+            white-space: nowrap;
+            font-size: 0.9rem;
+            padding: 0.75rem 0.5rem;
+            border-top: none;
+        }
+
+        .table td {
+            vertical-align: middle;
+            font-size: 0.9rem;
+            padding: 0.75rem 0.5rem;
+        }
+
+    /* Sticky first column */
+    .sticky-col {
+        position: sticky;
+        left: 0;
+        z-index: 1;
+        background-color: white !important;
+        min-width: 120px;
+    }
+
+    .table-dark .sticky-col {
+        background-color: var(--bs-dark) !important;
+        color: white;
+    }
+
+    .table-info .sticky-col {
+        background-color: #d1ecf1 !important;
+    }
+
+    /* Card improvements */
+    .card {
+        box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+        transition: transform 0.15s ease-in-out;
+        border: 1px solid rgba(0, 0, 0, 0.125);
+    }
+
+        .card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+        }
+
+    /* Modal improvements */
+    .modal-xl {
+        max-width: min(1140px, 95vw);
+    }
+
+    .modal-dialog-scrollable .modal-body {
+        max-height: 70vh;
+    }
+
+    /* Button improvements */
+    .btn-group-vertical {
+        width: 100%;
+    }
+
+        .btn-group-vertical .btn {
+            border-radius: 0.375rem !important;
+            margin-bottom: 0.25rem;
+        }
+
+            .btn-group-vertical .btn:last-child {
+                margin-bottom: 0;
+            }
+
+    /* Badge improvements */
+    .badge {
+        font-size: 0.75rem;
+        font-weight: 500;
+    }
+
+    /* Check section styling */
+    #checkSection {
+        background-color: #f8f9fa;
+        border-radius: 0.375rem;
+        padding: 1rem;
+        margin-top: 1rem;
+    }
+
+    /* Enhanced visual hierarchy */
+    .border-bottom {
+        border-bottom: 2px solid #dee2e6 !important;
+    }
+
+    .fw-bold {
+        font-weight: 600 !important;
+    }
+
+    /* Responsive table column visibility */
+    @@media (max-width: 1399.98px) {
+        .d-none.d-xl-table-cell {
+            display: none !important;
+        }
+    }
+
+    @@media (max-width: 1199.98px) {
+        .d-none.d-lg-table-cell {
+            display: none !important;
+        }
+
+        .table {
+            min-width: 800px;
+        }
+    }
+
+    @@media (max-width: 767.98px) {
+        .d-none.d-md-table-cell {
+            display: none !important;
+        }
+
+        .sticky-col {
+            min-width: 100px;
+        }
+
+        .table {
+            min-width: 600px;
+        }
+
+            .table th,
+            .table td {
+                padding: 0.5rem 0.25rem;
+                font-size: 0.8rem;
+            }
+
+        .card-body h4 {
+            font-size: 1.1rem;
+        }
+
+        .card-body h6 {
+            font-size: 0.9rem;
+        }
+    }
+
+    @@media (max-width: 575.98px) {
+        .container-fluid {
+            padding-left: 10px;
+            padding-right: 10px;
+        }
+
+        .modal-dialog {
+            margin: 0.5rem;
+        }
+
+        .table {
+            min-width: 500px;
+        }
+
+        .sticky-col {
+            min-width: 80px;
+        }
+
+        .table th,
+        .table td {
+            padding: 0.375rem 0.25rem;
+            font-size: 0.75rem;
+        }
+
+        .btn-sm {
+            font-size: 0.75rem;
+            padding: 0.25rem 0.5rem;
+        }
+
+        .badge {
+            font-size: 0.7rem;
+        }
+    }
+
+    /* Print styles */
+    @@media print {
+        .btn,
+        .action-cell,
+        #filterSection,
+        .mb-3.d-flex {
+            display: none !important;
+        }
+
+        .table-responsive {
+            overflow: visible;
+        }
+
+        .sticky-col {
+            position: static;
+        }
+    }
+
+    /* Accessibility improvements */
+    .btn:focus,
+    .form-control:focus,
+    .form-select:focus {
+        box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+        border-color: #80bdff;
+    }
+
+    /* Loading state styles */
+    .loading {
+        opacity: 0.6;
+        pointer-events: none;
+    }
+
+    /* Error state styles */
+    .has-error .form-control {
+        border-color: #dc3545;
+        box-shadow: 0 0 0 0.2rem rgba(220, 53, 69, 0.25);
+    }
+
+    /* Action cell styling */
+    .action-cell {
+        white-space: nowrap;
+        min-width: 120px;
+    }
+
+        .action-cell .btn {
+            margin-right: 0.25rem;
+            margin-bottom: 0.25rem;
+        }
+
+    /* Sales transaction highlighting */
+    .table-info {
+        background-color: rgba(13, 202, 240, 0.1) !important;
+    }
+
+    /* Form switch styling */
+    .form-check-input {
+        margin-top: 0.25rem;
+    }
+
+    .form-check-label {
+        margin-left: 0.5rem;
+    }
+
+    /* Filter section styling */
+    .form-label {
+        margin-bottom: 0.5rem;
+        font-weight: 500;
+    }
+
+    .flex-fill {
+        flex: 1 1 auto;
+    }
+
+    /* Better spacing */
+    .g-3 > * {
+        margin-bottom: 1rem;
+    }
+</style>

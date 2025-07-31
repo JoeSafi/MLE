@@ -1,0 +1,34 @@
+﻿@page
+@model MLEFIN.Pages.SettingsModel
+@{
+    Layout = "_Layout";
+    ViewData["Title"] = "Settings";
+}
+
+<div class="d-flex align-items-center mb-4">
+    <img src="~/images/logo.png" alt="MLEFIN Logo" height="50" />
+    <h2 class="ms-3">Settings</h2>
+</div>
+
+<div class="row">
+    <div class="col-md-4">
+        <div class="card mb-4">
+            <div class="card-body">
+                <h5 class="card-title">Companies</h5>
+                <p class="card-text">Add a new company or manage existing ones.</p>
+                <a asp-page="/Company" class="btn btn-primary">Manage Companies</a>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-4">
+            <div class="card mb-4">
+                <div class="card-body">
+                    <h5 class="card-title">Company Categories</h5>
+                    <p class="card-text">Add a new company or manage existing ones.</p>
+                    <a asp-page="/CompanyCategory" class="btn btn-primary">Manage Categories</a>
+                </div>
+            </div>
+        </div>
+    <!-- Add more cards for other settings modules here -->
+</div>

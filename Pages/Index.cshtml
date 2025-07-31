@@ -1,0 +1,120 @@
+﻿@page
+@model MLEFIN.Pages.IndexModel
+@{
+    Layout = "/Pages/Shared/_Layout.cshtml";
+    ViewData["Title"] = "Home";
+}
+
+<div class="container-fluid">
+    <!-- Header -->
+    <div class="row">
+        <div class="col-12 text-center my-5">
+            <img src="@(Url.Content("~/images/logo.PNG"))" alt="MLE Logo" class="img-fluid mb-4" style="max-height: 100px;" />
+            <h1 class="display-4">Welcome to MLEFIN</h1>
+            <p class="lead">Choose a module below or use the sidebar.</p>
+        </div>
+    </div>
+
+    <!-- Module Cards -->
+    <div class="row g-4">
+        <!-- Dashboard Card -->
+        <div class="col-lg-3 col-md-4 col-sm-6">
+            <div class="card h-100 shadow-sm border-primary">
+                <div class="card-body text-center">
+                    <h5 class="card-title text-primary">Dashboard</h5>
+                    <a asp-page="/Dashboard" class="btn btn-outline-primary mt-2">View Dashboard</a>
+                </div>
+            </div>
+        </div>
+        <!-- Bank Card -->
+        <div class="col-lg-3 col-md-4 col-sm-6">
+            <div class="card h-100 shadow-sm">
+                <div class="card-body text-center">
+                    <h5 class="card-title">Bank</h5>
+                    <a asp-page="/Bank" class="btn btn-primary mt-2">Open Bank</a>
+                </div>
+            </div>
+        </div>
+        <!-- Sales Card -->
+        <div class="col-lg-3 col-md-4 col-sm-6">
+            <div class="card h-100 shadow-sm">
+                <div class="card-body text-center">
+                    <h5 class="card-title">Sales</h5>
+                    <a asp-page="/Sales" class="btn btn-primary mt-2">Open Sales</a>
+                </div>
+            </div>
+        </div>
+        <!-- Expense Card -->
+        <div class="col-lg-3 col-md-4 col-sm-6">
+            <div class="card h-100 shadow-sm">
+                <div class="card-body text-center">
+                    <h5 class="card-title">Expense</h5>
+                    <a asp-page="/Expense" class="btn btn-primary mt-2">Open Expense</a>
+                </div>
+            </div>
+        </div>
+        <!-- Purchase Card -->
+        <div class="col-lg-3 col-md-4 col-sm-6">
+            <div class="card h-100 shadow-sm">
+                <div class="card-body text-center">
+                    <h5 class="card-title">Vendor Purchase</h5>
+                    <a asp-page="/VendorPurchase" class="btn btn-primary mt-2">Vendor Purchase</a>
+                </div>
+            </div>
+        </div>
+        <!-- Other Income Card -->
+        <div class="col-lg-3 col-md-4 col-sm-6">
+            <div class="card h-100 shadow-sm">
+                <div class="card-body text-center">
+                    <h5 class="card-title">Other Income</h5>
+                    <a asp-page="/OtherIncome" class="btn btn-primary mt-2">Open Income</a>
+                </div>
+            </div>
+        </div>
+        <!-- Returns Card -->
+        <div class="col-lg-3 col-md-4 col-sm-6">
+            <div class="card h-100 shadow-sm">
+                <div class="card-body text-center">
+                    <h5 class="card-title">Returns</h5>
+                    <a asp-page="/Returns" class="btn btn-primary mt-2">Open Returns</a>
+                </div>
+            </div>
+        </div>
+        <!-- Payroll Card -->
+        <div class="col-lg-3 col-md-4 col-sm-6">
+            <div class="card h-100 shadow-sm">
+                <div class="card-body text-center">
+                    <h5 class="card-title">Payroll</h5>
+                    <a asp-page="/Payroll" class="btn btn-primary mt-2">Open Payroll</a>
+                </div>
+            </div>
+        </div>
+        <!-- Shareholders Card -->
+        <div class="col-lg-3 col-md-4 col-sm-6">
+            <div class="card h-100 shadow-sm">
+                <div class="card-body text-center">
+                    <h5 class="card-title">Shareholders</h5>
+                    <a asp-page="/Shareholders" class="btn btn-primary mt-2">Open Shareholders</a>
+                </div>
+            </div>
+        </div>
+        <!-- Reports Card -->
+        <div class="col-lg-3 col-md-4 col-sm-6">
+            <div class="card h-100 shadow-sm border-secondary">
+                <div class="card-body text-center">
+                    <h5 class="card-title text-secondary">Reports</h5>
+                    <a asp-page="/Reports" class="btn btn-outline-secondary mt-2">View Reports</a>
+                </div>
+            </div>
+        </div>
+        <!-- Settings Card -->
+        <div class="col-lg-3 col-md-4 col-sm-6">
+            <div class="card h-100 shadow-sm">
+                <div class="card-body text-center">
+                    <h5 class="card-title">Settings</h5>
+                    <a asp-page="/Settings" class="btn btn-primary mt-2">Open Settings</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

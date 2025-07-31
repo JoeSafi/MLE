@@ -1,0 +1,53 @@
+﻿:root {
+    /* Brand Colors */
+    --brand-primary: #0d6efd;
+    --brand-secondary: #6c757d;
+    --brand-accent: #6610f2;
+    /* Background & Text */
+    --bg-light: #f8f9fa;
+    --text-dark: #212529;
+}
+
+/* Base page styling */
+body {
+    background-color: var(--bg-light);
+    color: var(--text-dark);
+}
+
+/* Button overrides */
+.btn-primary {
+    background-color: var(--brand-primary);
+    border-color: var(--brand-primary);
+}
+
+.btn-outline-secondary {
+    color: var(--brand-secondary);
+    border-color: var(--brand-secondary);
+}
+
+    .btn-outline-secondary:hover {
+        background-color: var(--brand-secondary);
+        color: #fff;
+    }
+
+/* Card header accents */
+.card.border-primary {
+    border-color: var(--brand-primary) !important;
+}
+
+.card.border-secondary {
+    border-color: var(--brand-secondary) !important;
+}
+
+.card .card-title.text-primary {
+    color: var(--brand-primary);
+}
+
+.card .card-title.text-secondary {
+    color: var(--brand-secondary);
+}
+
+/* Table styling */
+.table-light thead {
+    background-color: var(--bg-light);
+}

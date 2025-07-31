@@ -1,0 +1,99 @@
+@page
+@model MLEFIN.Pages.ReturnsModel
+
+@{ 
+    ViewData["Title"] = "Vendor Returns";
+}
+
+<h1>Vendor Returns</h1>
+
+<div class="d-flex justify-content-end mb-3">
+    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#returnModal">
+        Add Return
+    </button>
+</div>
+
+<form method="get">
+    <div class="form-row">
+        <div class="form-group col-md-3">
+            <label for="VendorFilter">Vendor</label>
+            <select asp-for="VendorFilter" asp-items="Model.Vendors" class="form-control">
+                <option value="">All Vendors</option>
+            </select>
+        </div>
+        <div class="form-group col-md-2">
+            <label for="DateFilter">Date</label>
+            <input type="date" asp-for="DateFilter" class="form-control" />
+        </div>
+        <div class="form-group col-md-1">
+            <label>&nbsp;</label>
+            <button type="submit" class="btn btn-primary">Filter</button>
+        </div>
+    </div>
+</form>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>@Html.DisplayNameFor(model => model.Returns.FirstOrDefault().ReturnDate)</th>
+            <th>@Html.DisplayNameFor(model => model.Returns.FirstOrDefault().VendorCompany.CompanyName)</th>
+            <th>@Html.DisplayNameFor(model => model.Returns.FirstOrDefault().ReturnNumber)</th>
+            <th>@Html.DisplayNameFor(model => model.Returns.FirstOrDefault().Amount)</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.Returns)
+        {
+            <tr>
+                <td>@Html.DisplayFor(modelItem => item.ReturnDate)</td>
+                <td>@Html.DisplayFor(modelItem => item.VendorCompany.CompanyName)</td>
+                <td>@Html.DisplayFor(modelItem => item.ReturnNumber)</td>
+                <td>@Html.DisplayFor(modelItem => item.Amount)</td>
+                <td>
+                    <a asp-page="./VendorReturnDetails" asp-route-id="@item.Id">Details</a> |
+                    <a asp-page="./EditVendorReturn" asp-route-id="@item.Id">Edit</a> |
+                    <a href="#" data-toggle="modal" data-target="#deleteModal_@item.Id">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<partial name="Shared/_VendorReturnModal" view-data="ViewData" />
+
+@section Scripts {
+    <script>
+        $(function () {
+            $('#returnModal').on('show.bs.modal', function (event) {
+                var button = $(event.relatedTarget);
+                var returnId = button.data('return-id');
+                var modal = $(this);
+
+                if (returnId) {
+                    $.get('/api/returns/' + returnId, function (data) {
+                        modal.find('#Id').val(data.id);
+                        modal.find('#ReturnDate').val(data.returnDate.split('T')[0]);
+                        modal.find('#VendorCompanyID').val(data.vendorCompanyID);
+                        modal.find('#ReturnNumber').val(data.returnNumber);
+                        modal.find('#Amount').val(data.amount);
+                        modal.find('#Notes').val(data.notes);
+                        modal.find('#Reason').val(data.reason);
+                    });
+                } else {
+                    modal.find('form')[0].reset();
+                }
+            });
+
+            $('#saveReturn').on('click', function () {
+                var form = $('#returnForm');
+                var returnData = form.serialize();
+
+                $.post('/api/returns', returnData, function () {
+                    $('#returnModal').modal('hide');
+                    location.reload();
+                });
+            });
+        });
+    </script>
+}

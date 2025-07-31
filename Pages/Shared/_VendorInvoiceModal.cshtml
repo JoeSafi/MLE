@@ -1,0 +1,115 @@
+@model MLEFIN.ViewModels.VendorInvoiceModalViewModel
+
+<div class="modal fade" id="invoiceModal" tabindex="-1" aria-labelledby="invoiceModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl modal-dialog-scrollable">
+        <div class="modal-content">
+            <div class="modal-header bg-primary text-white">
+                <h5 class="modal-title" id="invoiceModalLabel">
+                    @(Model.Invoice.Id == 0 ? "Add New Invoice" : "Edit Invoice")
+                </h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+
+            <form method="post" id="invoiceForm" novalidate>
+                <div class="modal-body">
+                    <input type="hidden" asp-for="Invoice.Id" />
+
+                    <div class="card mb-4">
+                        <div class="card-header bg-light">
+                            <h6 class="mb-0">Invoice Details</h6>
+                        </div>
+                        <div class="card-body">
+                            <div class="row g-3">
+                                <div class="col-md-4">
+                                    <label asp-for="Invoice.InvoiceDate" class="form-label required">Date</label>
+                                    <input asp-for="Invoice.InvoiceDate" class="form-control" type="date" required />
+                                    <span asp-validation-for="Invoice.InvoiceDate" class="text-danger"></span>
+                                </div>
+                                <div class="col-md-4">
+                                    <label asp-for="Invoice.VendorCompanyID" class="form-label required">Vendor</label>
+                                    <select asp-for="Invoice.VendorCompanyID" asp-items="Model.Vendors" class="form-select" required>
+                                        <option value="">-- Select Vendor --</option>
+                                    </select>
+                                    <span asp-validation-for="Invoice.VendorCompanyID" class="text-danger"></span>
+                                </div>
+                                <div class="col-md-4">
+                                    <label asp-for="Invoice.VendorCompany.CompanyCategoryID" class="form-label">Category</label>
+                                    <select asp-for="Invoice.VendorCompany.CompanyCategoryID" asp-items="Model.Categories" class="form-select">
+                                        <option value="">-- Select Category --</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-4">
+                                    <label asp-for="Invoice.InvoiceNumber" class="form-label required">Invoice Number</label>
+                                    <input asp-for="Invoice.InvoiceNumber" class="form-control" required />
+                                    <span asp-validation-for="Invoice.InvoiceNumber" class="text-danger"></span>
+                                </div>
+                                <div class="col-md-4">
+                                    <label class="form-label">Total Parts</label>
+                                    <div class="input-group">
+                                        <span class="input-group-text">$</span>
+                                        <input type="number" class="form-control" readonly />
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <label class="form-label">Total Cores</label>
+                                    <div class="input-group">
+                                        <span class="input-group-text">$</span>
+                                        <input type="number" class="form-control" readonly />
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
+                                    <label asp-for="Invoice.Amount" class="form-label required">Invoice Total</label>
+                                    <div class="input-group">
+                                        <span class="input-group-text">$</span>
+                                        <input asp-for="Invoice.Amount" class="form-control" type="number" step="0.01" min="0" required />
+                                    </div>
+                                    <span asp-validation-for="Invoice.Amount" class="text-danger"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card mb-4">
+                        <div class="card-header bg-light">
+                            <h6 class="mb-0">Options</h6>
+                        </div>
+                        <div class="card-body">
+                            <div class="row g-3 align-items-center">
+                                <div class="col-md-3">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" asp-for="Invoice.HasWarranty" id="hasWarrantyCheck">
+                                        <label class="form-check-label" asp-for="Invoice.HasWarranty">
+                                            Warranty
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" asp-for="Invoice.HasCore" id="hasCoreCheck">
+                                        <label class="form-check-label" asp-for="Invoice.HasCore">
+                                            Core
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="col-md-6 d-flex justify-content-end">
+                                    <button type="button" id="addPartsBtn" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#addPartsModal">
+                                        <i class="fas fa-plus"></i> Add Parts
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                        <i class="fas fa-times"></i> Cancel
+                    </button>
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-save"></i> Save Changes
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

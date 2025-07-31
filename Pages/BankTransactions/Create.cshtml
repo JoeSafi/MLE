@@ -1,0 +1,54 @@
+﻿@page
+@model MLEFIN.Pages.BankTransactions.CreateModel
+@{
+    ViewData["Title"] = "Create Bank Transaction";
+}
+
+<h1>Create Bank Transaction</h1>
+
+<form method="post">
+    @Html.AntiForgeryToken()
+    <div class="form-group">
+        <label asp-for="BankTransaction.Account"></label>
+        <select asp-for="BankTransaction.Account" class="form-control">
+            <option value="">-- Select Account --</option>
+            <option value="Cash">Cash</option>
+            <option value="Bank">Bank</option>
+        </select>
+        <span asp-validation-for="BankTransaction.Account" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="BankTransaction.Amount"></label>
+        <input asp-for="BankTransaction.Amount" class="form-control" type="number" step="0.01" />
+        <span asp-validation-for="BankTransaction.Amount" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="BankTransaction.TransactionDate"></label>
+        <input asp-for="BankTransaction.TransactionDate" type="date" class="form-control" />
+        <span asp-validation-for="BankTransaction.TransactionDate" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="BankTransaction.Type"></label>
+        <select asp-for="BankTransaction.Type" class="form-control">
+            <option value="">-- Select Type --</option>
+            <option value="Deposit">Credit</option>
+            <option value="Payout">Debit</option>
+        </select>
+        <span asp-validation-for="BankTransaction.Type" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="BankTransaction.Description"></label>
+        <input asp-for="BankTransaction.Description" class="form-control" />
+        <span asp-validation-for="BankTransaction.Description" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="BankTransaction.Payee"></label>
+        <input asp-for="BankTransaction.Payee" class="form-control" />
+        <span asp-validation-for="BankTransaction.Payee" class="text-danger"></span>
+    </div>
+    <button type="submit" class="btn btn-primary">Save</button>
+</form>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

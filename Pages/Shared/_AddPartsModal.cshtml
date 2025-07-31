@@ -1,0 +1,74 @@
+@model MLEFIN.ViewModels.VendorInvoiceModalViewModel
+
+
+
+<div class="modal fade" id="addPartsModal" tabindex="-1" aria-labelledby="addPartsModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="addPartsModalLabel">Add Parts</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <!-- Part search and add form -->
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        <label class="form-label">Part Number</label>
+                        <select id="partNumberSearch" class="form-control" style="width: 100%;"></select>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label">Description</label>
+                        <input type="text" id="partDescription" class="form-control" />
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <div class="col-md-4">
+                        <label class="form-label">Quantity</label>
+                        <input type="number" id="partQuantity" class="form-control" />
+                    </div>
+                    <div class="col-md-4">
+                        <label class="form-label">Cost</label>
+                        <input type="number" id="partCost" class="form-control" />
+                    </div>
+                    <div class="col-md-4">
+                        <label class="form-label">Line Total</label>
+                        <input type="number" id="partLineTotal" class="form-control" readonly />
+                    </div>
+                </div>
+                <button type="button" id="addPartToList" class="btn btn-primary">Add to List</button>
+
+                <hr />
+
+                <!-- Parts list -->
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Part Number</th>
+                            <th>Description</th>
+                            <th>Quantity</th>
+                            <th>Cost</th>
+                            <th>Line Total</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody id="partsList">
+                    </tbody>
+                </table>
+
+                <!-- Parts total -->
+                <div class="row">
+                    <div class="col-md-8"></div>
+                    <div class="col-md-4">
+                        <label class="form-label">Parts Total</label>
+                        <input type="number" id="partsTotal" class="form-control" readonly />
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" id="saveParts" class="btn btn-primary">Save Parts</button>
+            </div>
+        </div>
+    </div>
+</div>
+

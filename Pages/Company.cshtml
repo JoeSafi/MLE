@@ -1,0 +1,433 @@
+﻿@page
+@model MLEFIN.Pages.CompanyModel
+@{
+    Layout = "_Layout";
+    ViewData["Title"] = "Companies";
+}
+
+<div class="container">
+    <div class="d-flex align-items-center mb-4">
+        <img src="~/images/logo.png" alt="MLEFIN Logo" height="50" />
+        <h2 class="ms-3">Companies</h2>
+    </div>
+
+    <div class="mb-3">
+        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#companyModal">
+            Add Company
+        </button>
+    </div>
+
+    @if (!ViewData.ModelState.IsValid)
+    {
+        <div class="alert alert-danger mb-3">
+            <h5>Please fix the following errors:</h5>
+            <div asp-validation-summary="All" class="text-danger"></div>
+        </div>
+    }
+
+    <div class="table-responsive">
+        <table class="table table-striped table-hover">
+            <thead>
+                <tr>
+                    <th>Company Name</th>
+                    <th>Category</th>
+                    <th>Contact</th>
+                    <th>Phone</th>
+                    <th>Cell Phone</th>
+                    <th>Email</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var company in Model.Companies)
+                {
+                    <tr class="clickable-row" data-company-id="@company.CompanyID" style="cursor: pointer;">
+                        <td>@company.CompanyName</td>
+                        <td>@company.Category?.CategoryName</td>
+                        <td>@company.ContactName</td>
+                        <td>@company.Phone</td>
+                        <td>@company.CellPhone</td>
+                        <td>@company.Email</td>
+                        <td onclick="event.stopPropagation();">
+                            <button type="button" class="btn btn-sm btn-secondary"
+                                    onclick="editCompany(@company.CompanyID)">
+                                Edit
+                            </button>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Add/Edit Company Modal -->
+    <div class="modal fade" id="companyModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <form method="post" asp-page-handler="Save" id="companyForm">
+                    @Html.AntiForgeryToken()
+                    <div class="modal-header bg-primary text-white">
+                        <h5 class="modal-title">@(Model.Company.CompanyID == 0 ? "Add New Company" : "Edit Company")</h5>
+                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <input type="hidden" asp-for="Company.CompanyID" />
+
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <label asp-for="Company.CompanyName" class="form-label">Company Name *</label>
+                                <input asp-for="Company.CompanyName" class="form-control" />
+                                <span asp-validation-for="Company.CompanyName" class="text-danger"></span>
+                            </div>
+                            <div class="col-md-6">
+                                <label asp-for="Company.CompanyCategoryID" class="form-label">Category *</label>
+                                <select asp-for="Company.CompanyCategoryID" class="form-select" asp-items="Model.CategoryList">
+                                    <option value="">-- Select Category --</option>
+                                </select>
+                                <span asp-validation-for="Company.CompanyCategoryID" class="text-danger"></span>
+                            </div>
+                        </div>
+
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <label asp-for="Company.ContactName" class="form-label">Contact Person</label>
+                                <input asp-for="Company.ContactName" class="form-control" />
+                                <span asp-validation-for="Company.ContactName" class="text-danger"></span>
+                            </div>
+                            <div class="col-md-6">
+                                <label asp-for="Company.Email" class="form-label">Email</label>
+                                <input asp-for="Company.Email" class="form-control" type="email" />
+                                <span asp-validation-for="Company.Email" class="text-danger"></span>
+                            </div>
+                        </div>
+
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <label asp-for="Company.Address" class="form-label">Address</label>
+                                <input asp-for="Company.Address" class="form-control" />
+                                <span asp-validation-for="Company.Address" class="text-danger"></span>
+                            </div>
+                            <div class="col-md-6">
+                                <!-- Empty column for layout balance -->
+                            </div>
+                        </div>
+
+                        <div class="row mb-3">
+                            <div class="col-md-4">
+                                <label asp-for="Company.Phone" class="form-label">Phone *</label>
+                                <input asp-for="Company.Phone" class="form-control" />
+                                <span asp-validation-for="Company.Phone" class="text-danger"></span>
+                            </div>
+                            <div class="col-md-4">
+                                <label asp-for="Company.CellPhone" class="form-label">Mobile</label>
+                                <input asp-for="Company.CellPhone" class="form-control" />
+                                <span asp-validation-for="Company.CellPhone" class="text-danger"></span>
+                            </div>
+                            <div class="col-md-4">
+                                <label asp-for="Company.PaymentTerms" class="form-label">Payment Terms</label>
+                                <input asp-for="Company.PaymentTerms" class="form-control" />
+                                <span asp-validation-for="Company.PaymentTerms" class="text-danger"></span>
+                            </div>
+                        </div>
+
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <div class="form-check form-switch">
+                                    <input asp-for="Company.CardOnFile" class="form-check-input" id="cardOnFileSwitch" />
+                                    <label asp-for="Company.CardOnFile" class="form-check-label">Card on File</label>
+                                </div>
+                                <div class="mt-2" id="cardNumberField">
+                                    <label asp-for="Company.CardNumber" class="form-label">Card Number</label>
+                                    <input asp-for="Company.CardNumber" class="form-control" />
+                                    <span asp-validation-for="Company.CardNumber" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-check">
+                                    <input asp-for="Company.Check" class="form-check-input" />
+                                    <label asp-for="Company.Check" class="form-check-label">Accepts Checks</label>
+                                </div>
+                                <div class="form-check">
+                                    <input asp-for="Company.Cash" class="form-check-input" />
+                                    <label asp-for="Company.Cash" class="form-check-label">Accepts Cash</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary">@(Model.Company.CompanyID == 0 ? "Save Company" : "Update Company")</button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- View Company Modal (Read-only) -->
+    <div class="modal fade" id="viewCompanyModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header bg-info text-white">
+                    <h5 class="modal-title">Company Details</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <label class="form-label fw-bold">Company Name</label>
+                            <div class="form-control-plaintext border p-2 bg-light" id="viewCompanyName">-</div>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label fw-bold">Category</label>
+                            <div class="form-control-plaintext border p-2 bg-light" id="viewCategory">-</div>
+                        </div>
+                    </div>
+
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <label class="form-label fw-bold">Contact Person</label>
+                            <div class="form-control-plaintext border p-2 bg-light" id="viewContactName">-</div>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label fw-bold">Email</label>
+                            <div class="form-control-plaintext border p-2 bg-light" id="viewEmail">-</div>
+                        </div>
+                    </div>
+
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <label class="form-label fw-bold">Address</label>
+                            <div class="form-control-plaintext border p-2 bg-light" id="viewAddress">-</div>
+                        </div>
+                        <div class="col-md-6">
+                            <!-- Empty column for layout balance -->
+                        </div>
+                    </div>
+
+                    <div class="row mb-3">
+                        <div class="col-md-4">
+                            <label class="form-label fw-bold">Phone</label>
+                            <div class="form-control-plaintext border p-2 bg-light" id="viewPhone">-</div>
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label fw-bold">Mobile</label>
+                            <div class="form-control-plaintext border p-2 bg-light" id="viewCellPhone">-</div>
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label fw-bold">Payment Terms</label>
+                            <div class="form-control-plaintext border p-2 bg-light" id="viewPaymentTerms">-</div>
+                        </div>
+                    </div>
+
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <label class="form-label fw-bold">Card on File</label>
+                            <div class="form-control-plaintext border p-2 bg-light" id="viewCardOnFile">-</div>
+                            <div class="mt-2" id="viewCardNumberContainer">
+                                <label class="form-label fw-bold">Card Number</label>
+                                <div class="form-control-plaintext border p-2 bg-light" id="viewCardNumber">-</div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label fw-bold">Payment Methods</label>
+                            <div class="border p-2 bg-light">
+                                <div id="viewCheck">Checks: -</div>
+                                <div id="viewCash">Cash: -</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" onclick="editFromView()" id="editFromViewBtn">Edit</button>
+                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    <script>
+        let currentViewCompanyId = 0;
+        let companyData = [];
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const cardSwitch = document.getElementById('cardOnFileSwitch');
+            const cardField = document.getElementById('cardNumberField');
+            const companyModal = document.getElementById('companyModal');
+            const companyForm = document.getElementById('companyForm');
+            const viewCompanyModal = document.getElementById('viewCompanyModal');
+
+            // Check if Bootstrap is loaded
+            if (typeof bootstrap === 'undefined') {
+                console.error('Bootstrap is not loaded!');
+                return;
+            }
+
+            // Initialize company data
+            try {
+                companyData = @Html.Raw(System.Text.Json.JsonSerializer.Serialize(
+                    Model.Companies.Select(c => new {
+                        CompanyID = c.CompanyID,
+                        CompanyName = c.CompanyName ?? "",
+                        CategoryName = c.Category?.CategoryName ?? "",
+                        Address = c.Address ?? "",
+                        ContactName = c.ContactName ?? "",
+                        Phone = c.Phone ?? "",
+                        CellPhone = c.CellPhone ?? "",
+                        Email = c.Email ?? "",
+                        PaymentTerms = c.PaymentTerms ?? "",
+                        CardOnFile = c.CardOnFile,
+                        CardNumber = c.CardNumber ?? "",
+                        Check = c.Check,
+                        Cash = c.Cash
+                    })
+                ));
+                console.log('Company data loaded:', companyData);
+            } catch (error) {
+                console.error('Error loading company data:', error);
+            }
+
+            // Add click event listeners to table rows
+            document.querySelectorAll('.clickable-row').forEach(row => {
+                row.addEventListener('click', function() {
+                    const companyId = parseInt(this.dataset.companyId);
+                    console.log('Row clicked, company ID:', companyId);
+                    viewCompany(companyId);
+                });
+            });
+
+            // Initialize card field visibility
+            function updateCardField() {
+                if (cardField && cardSwitch) {
+                    cardField.style.display = cardSwitch.checked ? 'block' : 'none';
+                }
+            }
+
+            if (cardSwitch) {
+                cardSwitch.addEventListener('change', updateCardField);
+                updateCardField();
+            }
+
+            // Function to reset form completely
+            function resetCompanyForm() {
+                if (companyForm) {
+                    companyForm.reset();
+                    const companyIdField = companyForm.querySelector('[name="Company.CompanyID"]');
+                    if (companyIdField) companyIdField.value = '0';
+                    const categorySelect = companyForm.querySelector('[name="Company.CompanyCategoryID"]');
+                    if (categorySelect) categorySelect.selectedIndex = 0;
+                    const checkboxes = companyForm.querySelectorAll('input[type="checkbox"]');
+                    checkboxes.forEach(cb => cb.checked = false);
+                    const validationSpans = companyForm.querySelectorAll('.text-danger');
+                    validationSpans.forEach(span => span.textContent = '');
+                    updateCardField();
+                    const modalTitle = companyModal.querySelector('.modal-title');
+                    if (modalTitle) modalTitle.textContent = 'Add New Company';
+                    const submitButton = companyForm.querySelector('button[type="submit"]');
+                    if (submitButton) submitButton.textContent = 'Save Company';
+                }
+            }
+
+            // Handle modal hidden event
+            if (companyModal) {
+                companyModal.addEventListener('hidden.bs.modal', function() {
+                    resetCompanyForm();
+                });
+            }
+
+            // Handle Cancel button click
+            const cancelButton = companyModal.querySelector('.btn-secondary[data-bs-dismiss="modal"]');
+            if (cancelButton) {
+                cancelButton.addEventListener('click', function() {
+                    resetCompanyForm();
+                });
+            }
+
+            // Show modal for edit if needed
+            @if (Model.Company.CompanyID != 0)
+            {
+                <text>
+                setTimeout(() => {
+                    const modal = new bootstrap.Modal(companyModal);
+                    modal.show();
+                    const modalTitle = companyModal.querySelector('.modal-title');
+                    if (modalTitle) modalTitle.textContent = 'Edit Company';
+                    const submitButton = companyForm.querySelector('button[type="submit"]');
+                    if (submitButton) submitButton.textContent = 'Update Company';
+                }, 100);
+                </text>
+            }
+        });
+
+        // View company function (called when row is clicked)
+        function viewCompany(companyId) {
+            console.log('viewCompany called with ID:', companyId);
+            currentViewCompanyId = companyId;
+            
+            try {
+                const company = companyData.find(c => c.CompanyID === companyId);
+                console.log('Found company:', company);
+                
+                if (company) {
+                    // Populate the view modal
+                    document.getElementById('viewCompanyName').textContent = company.CompanyName || '-';
+                    document.getElementById('viewCategory').textContent = company.CategoryName || '-';
+                    document.getElementById('viewAddress').textContent = company.Address || '-';
+                    document.getElementById('viewContactName').textContent = company.ContactName || '-';
+                    document.getElementById('viewEmail').textContent = company.Email || '-';
+                    document.getElementById('viewPhone').textContent = company.Phone || '-';
+                    document.getElementById('viewCellPhone').textContent = company.CellPhone || '-';
+                    document.getElementById('viewPaymentTerms').textContent = company.PaymentTerms || '-';
+                    document.getElementById('viewCardOnFile').textContent = company.CardOnFile ? 'Yes' : 'No';
+                    document.getElementById('viewCardNumber').textContent = company.CardNumber || '-';
+                    document.getElementById('viewCheck').textContent = 'Checks: ' + (company.Check ? 'Yes' : 'No');
+                    document.getElementById('viewCash').textContent = 'Cash: ' + (company.Cash ? 'Yes' : 'No');
+                    
+                    // Show/hide card number based on CardOnFile
+                    const cardContainer = document.getElementById('viewCardNumberContainer');
+                    if (cardContainer) {
+                        cardContainer.style.display = company.CardOnFile ? 'block' : 'none';
+                    }
+                    
+                    // Show the modal
+                    const modalElement = document.getElementById('viewCompanyModal');
+                    if (modalElement) {
+                        console.log('Showing view modal');
+                        const modal = new bootstrap.Modal(modalElement);
+                        modal.show();
+                    } else {
+                        console.error('View modal element not found');
+                    }
+                } else {
+                    console.error('Company not found with ID:', companyId);
+                    alert('Company details not found');
+                }
+            } catch (error) {
+                console.error('Error in viewCompany:', error);
+                alert('Error loading company details: ' + error.message);
+            }
+        }
+
+        // Edit company function (called from Edit button)
+        function editCompany(companyId) {
+            window.location.href = `?handler=Edit&id=${companyId}`;
+        }
+
+        // Edit from view modal
+        function editFromView() {
+            if (currentViewCompanyId > 0) {
+                // Close view modal
+                const viewModal = bootstrap.Modal.getInstance(document.getElementById('viewCompanyModal'));
+                if (viewModal) {
+                    viewModal.hide();
+                }
+                // Redirect to edit
+                setTimeout(() => {
+                    window.location.href = `?handler=Edit&id=${currentViewCompanyId}`;
+                }, 300);
+            }
+        }
+    </script>
+}

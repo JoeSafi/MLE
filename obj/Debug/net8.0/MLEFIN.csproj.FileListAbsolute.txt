@@ -1,0 +1,348 @@
+D:\MLEFIN Project\Sources\Repo\MLEFIN\bin\Debug\net8.0\appsettings.Development.json
+D:\MLEFIN Project\Sources\Repo\MLEFIN\bin\Debug\net8.0\appsettings.json
+D:\MLEFIN Project\Sources\Repo\MLEFIN\bin\Debug\net8.0\MLEFIN.staticwebassets.runtime.json
+D:\MLEFIN Project\Sources\Repo\MLEFIN\bin\Debug\net8.0\MLEFIN.staticwebassets.endpoints.json
+D:\MLEFIN Project\Sources\Repo\MLEFIN\bin\Debug\net8.0\MLEFIN.exe
+D:\MLEFIN Project\Sources\Repo\MLEFIN\bin\Debug\net8.0\MLEFIN.deps.json
+D:\MLEFIN Project\Sources\Repo\MLEFIN\bin\Debug\net8.0\MLEFIN.runtimeconfig.json
+D:\MLEFIN Project\Sources\Repo\MLEFIN\bin\Debug\net8.0\MLEFIN.dll
+D:\MLEFIN Project\Sources\Repo\MLEFIN\bin\Debug\net8.0\MLEFIN.pdb
+D:\MLEFIN Project\Sources\Repo\MLEFIN\bin\Debug\net8.0\Azure.Core.dll
+D:\MLEFIN Project\Sources\Repo\MLEFIN\bin\Debug\net8.0\Azure.Identity.dll
+D:\MLEFIN Project\Sources\Repo\MLEFIN\bin\Debug\net8.0\Humanizer.dll
+D:\MLEFIN Project\Sources\Repo\MLEFIN\bin\Debug\net8.0\Microsoft.Bcl.AsyncInterfaces.dll
+D:\MLEFIN Project\Sources\Repo\MLEFIN\bin\Debug\net8.0\Microsoft.Build.Locator.dll
+D:\MLEFIN Project\Sources\Repo\MLEFIN\bin\Debug\net8.0\Microsoft.CodeAnalysis.dll
+D:\MLEFIN Project\Sources\Repo\MLEFIN\bin\Debug\net8.0\Microsoft.CodeAnalysis.CSharp.dll
+D:\MLEFIN Project\Sources\Repo\MLEFIN\bin\Debug\net8.0\Microsoft.CodeAnalysis.CSharp.Workspaces.dll
+D:\MLEFIN Project\Sources\Repo\MLEFIN\bin\Debug\net8.0\Microsoft.CodeAnalysis.Workspaces.dll
+D:\MLEFIN Project\Sources\Repo\MLEFIN\bin\Debug\net8.0\Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.dll
+D:\MLEFIN Project\Sources\Repo\MLEFIN\bin\Debug\net8.0\Microsoft.CodeAnalysis.Workspaces.MSBuild.dll
+D:\MLEFIN Project\Sources\Repo\MLEFIN\bin\Debug\net8.0\Microsoft.Data.SqlClient.dll
+D:\MLEFIN Project\Sources\Repo\MLEFIN\bin\Debug\net8.0\Microsoft.EntityFrameworkCore.dll
+D:\MLEFIN Project\Sources\Repo\MLEFIN\bin\Debug\net8.0\Microsoft.EntityFrameworkCore.Abstractions.dll
+D:\MLEFIN Project\Sources\Repo\MLEFIN\bin\Debug\net8.0\Microsoft.EntityFrameworkCore.Design.dll
+D:\MLEFIN Project\Sources\Repo\MLEFIN\bin\Debug\net8.0\Microsoft.EntityFrameworkCore.Relational.dll
+D:\MLEFIN Project\Sources\Repo\MLEFIN\bin\Debug\net8.0\Microsoft.EntityFrameworkCore.SqlServer.dll
+D:\MLEFIN Project\Sources\Repo\MLEFIN\bin\Debug\net8.0\Microsoft.Extensions.Caching.Abstractions.dll
+D:\MLEFIN Project\Sources\Repo\MLEFIN\bin\Debug\net8.0\Microsoft.Extensions.Caching.Memory.dll
+D:\MLEFIN Project\Sources\Repo\MLEFIN\bin\Debug\net8.0\Microsoft.Extensions.Configuration.Abstractions.dll
+D:\MLEFIN Project\Sources\Repo\MLEFIN\bin\Debug\net8.0\Microsoft.Extensions.DependencyInjection.dll
+D:\MLEFIN Project\Sources\Repo\MLEFIN\bin\Debug\net8.0\Microsoft.Extensions.DependencyInjection.Abstractions.dll
+D:\MLEFIN Project\Sources\Repo\MLEFIN\bin\Debug\net8.0\Microsoft.Extensions.DependencyModel.dll
+D:\MLEFIN Project\Sources\Repo\MLEFIN\bin\Debug\net8.0\Microsoft.Extensions.Logging.dll
+D:\MLEFIN Project\Sources\Repo\MLEFIN\bin\Debug\net8.0\Microsoft.Extensions.Logging.Abstractions.dll
+D:\MLEFIN Project\Sources\Repo\MLEFIN\bin\Debug\net8.0\Microsoft.Extensions.Options.dll
+D:\MLEFIN Project\Sources\Repo\MLEFIN\bin\Debug\net8.0\Microsoft.Extensions.Primitives.dll
+D:\MLEFIN Project\Sources\Repo\MLEFIN\bin\Debug\net8.0\Microsoft.Identity.Client.dll
+D:\MLEFIN Project\Sources\Repo\MLEFIN\bin\Debug\net8.0\Microsoft.Identity.Client.Extensions.Msal.dll
+D:\MLEFIN Project\Sources\Repo\MLEFIN\bin\Debug\net8.0\Microsoft.IdentityModel.Abstractions.dll
+D:\MLEFIN Project\Sources\Repo\MLEFIN\bin\Debug\net8.0\Microsoft.IdentityModel.JsonWebTokens.dll
+D:\MLEFIN Project\Sources\Repo\MLEFIN\bin\Debug\net8.0\Microsoft.IdentityModel.Logging.dll
+D:\MLEFIN Project\Sources\Repo\MLEFIN\bin\Debug\net8.0\Microsoft.IdentityModel.Protocols.dll
+D:\MLEFIN Project\Sources\Repo\MLEFIN\bin\Debug\net8.0\Microsoft.IdentityModel.Protocols.OpenIdConnect.dll
+D:\MLEFIN Project\Sources\Repo\MLEFIN\bin\Debug\net8.0\Microsoft.IdentityModel.Tokens.dll
+D:\MLEFIN Project\Sources\Repo\MLEFIN\bin\Debug\net8.0\Microsoft.OpenApi.dll
+D:\MLEFIN Project\Sources\Repo\MLEFIN\bin\Debug\net8.0\Microsoft.SqlServer.Server.dll
+D:\MLEFIN Project\Sources\Repo\MLEFIN\bin\Debug\net8.0\Microsoft.Win32.SystemEvents.dll
+D:\MLEFIN Project\Sources\Repo\MLEFIN\bin\Debug\net8.0\Mono.TextTemplating.dll
+D:\MLEFIN Project\Sources\Repo\MLEFIN\bin\Debug\net8.0\Swashbuckle.AspNetCore.Swagger.dll
+D:\MLEFIN Project\Sources\Repo\MLEFIN\bin\Debug\net8.0\Swashbuckle.AspNetCore.SwaggerGen.dll
+D:\MLEFIN Project\Sources\Repo\MLEFIN\bin\Debug\net8.0\Swashbuckle.AspNetCore.SwaggerUI.dll
+D:\MLEFIN Project\Sources\Repo\MLEFIN\bin\Debug\net8.0\System.ClientModel.dll
+D:\MLEFIN Project\Sources\Repo\MLEFIN\bin\Debug\net8.0\System.CodeDom.dll
+D:\MLEFIN Project\Sources\Repo\MLEFIN\bin\Debug\net8.0\System.Composition.AttributedModel.dll
+D:\MLEFIN Project\Sources\Repo\MLEFIN\bin\Debug\net8.0\System.Composition.Convention.dll
+D:\MLEFIN Project\Sources\Repo\MLEFIN\bin\Debug\net8.0\System.Composition.Hosting.dll
+D:\MLEFIN Project\Sources\Repo\MLEFIN\bin\Debug\net8.0\System.Composition.Runtime.dll
+D:\MLEFIN Project\Sources\Repo\MLEFIN\bin\Debug\net8.0\System.Composition.TypedParts.dll
+D:\MLEFIN Project\Sources\Repo\MLEFIN\bin\Debug\net8.0\System.Configuration.ConfigurationManager.dll
+D:\MLEFIN Project\Sources\Repo\MLEFIN\bin\Debug\net8.0\System.Diagnostics.DiagnosticSource.dll
+D:\MLEFIN Project\Sources\Repo\MLEFIN\bin\Debug\net8.0\System.Drawing.Common.dll
+D:\MLEFIN Project\Sources\Repo\MLEFIN\bin\Debug\net8.0\System.Formats.Asn1.dll
+D:\MLEFIN Project\Sources\Repo\MLEFIN\bin\Debug\net8.0\System.IdentityModel.Tokens.Jwt.dll
+D:\MLEFIN Project\Sources\Repo\MLEFIN\bin\Debug\net8.0\System.IO.Pipelines.dll
+D:\MLEFIN Project\Sources\Repo\MLEFIN\bin\Debug\net8.0\System.Memory.Data.dll
+D:\MLEFIN Project\Sources\Repo\MLEFIN\bin\Debug\net8.0\System.Runtime.Caching.dll
+D:\MLEFIN Project\Sources\Repo\MLEFIN\bin\Debug\net8.0\System.Security.Cryptography.ProtectedData.dll
+D:\MLEFIN Project\Sources\Repo\MLEFIN\bin\Debug\net8.0\System.Security.Permissions.dll
+D:\MLEFIN Project\Sources\Repo\MLEFIN\bin\Debug\net8.0\System.Text.Encodings.Web.dll
+D:\MLEFIN Project\Sources\Repo\MLEFIN\bin\Debug\net8.0\System.Text.Json.dll
+D:\MLEFIN Project\Sources\Repo\MLEFIN\bin\Debug\net8.0\System.Windows.Extensions.dll
+D:\MLEFIN Project\Sources\Repo\MLEFIN\bin\Debug\net8.0\cs\Microsoft.CodeAnalysis.resources.dll
+D:\MLEFIN Project\Sources\Repo\MLEFIN\bin\Debug\net8.0\de\Microsoft.CodeAnalysis.resources.dll
+D:\MLEFIN Project\Sources\Repo\MLEFIN\bin\Debug\net8.0\es\Microsoft.CodeAnalysis.resources.dll
+D:\MLEFIN Project\Sources\Repo\MLEFIN\bin\Debug\net8.0\fr\Microsoft.CodeAnalysis.resources.dll
+D:\MLEFIN Project\Sources\Repo\MLEFIN\bin\Debug\net8.0\it\Microsoft.CodeAnalysis.resources.dll
+D:\MLEFIN Project\Sources\Repo\MLEFIN\bin\Debug\net8.0\ja\Microsoft.CodeAnalysis.resources.dll
+D:\MLEFIN Project\Sources\Repo\MLEFIN\bin\Debug\net8.0\ko\Microsoft.CodeAnalysis.resources.dll
+D:\MLEFIN Project\Sources\Repo\MLEFIN\bin\Debug\net8.0\pl\Microsoft.CodeAnalysis.resources.dll
+D:\MLEFIN Project\Sources\Repo\MLEFIN\bin\Debug\net8.0\pt-BR\Microsoft.CodeAnalysis.resources.dll
+D:\MLEFIN Project\Sources\Repo\MLEFIN\bin\Debug\net8.0\ru\Microsoft.CodeAnalysis.resources.dll
+D:\MLEFIN Project\Sources\Repo\MLEFIN\bin\Debug\net8.0\tr\Microsoft.CodeAnalysis.resources.dll
+D:\MLEFIN Project\Sources\Repo\MLEFIN\bin\Debug\net8.0\zh-Hans\Microsoft.CodeAnalysis.resources.dll
+D:\MLEFIN Project\Sources\Repo\MLEFIN\bin\Debug\net8.0\zh-Hant\Microsoft.CodeAnalysis.resources.dll
+D:\MLEFIN Project\Sources\Repo\MLEFIN\bin\Debug\net8.0\cs\Microsoft.CodeAnalysis.CSharp.resources.dll
+D:\MLEFIN Project\Sources\Repo\MLEFIN\bin\Debug\net8.0\de\Microsoft.CodeAnalysis.CSharp.resources.dll
+D:\MLEFIN Project\Sources\Repo\MLEFIN\bin\Debug\net8.0\es\Microsoft.CodeAnalysis.CSharp.resources.dll
+D:\MLEFIN Project\Sources\Repo\MLEFIN\bin\Debug\net8.0\fr\Microsoft.CodeAnalysis.CSharp.resources.dll
+D:\MLEFIN Project\Sources\Repo\MLEFIN\bin\Debug\net8.0\it\Microsoft.CodeAnalysis.CSharp.resources.dll
+D:\MLEFIN Project\Sources\Repo\MLEFIN\bin\Debug\net8.0\ja\Microsoft.CodeAnalysis.CSharp.resources.dll
+D:\MLEFIN Project\Sources\Repo\MLEFIN\bin\Debug\net8.0\ko\Microsoft.CodeAnalysis.CSharp.resources.dll
+D:\MLEFIN Project\Sources\Repo\MLEFIN\bin\Debug\net8.0\pl\Microsoft.CodeAnalysis.CSharp.resources.dll
+D:\MLEFIN Project\Sources\Repo\MLEFIN\bin\Debug\net8.0\pt-BR\Microsoft.CodeAnalysis.CSharp.resources.dll
+D:\MLEFIN Project\Sources\Repo\MLEFIN\bin\Debug\net8.0\ru\Microsoft.CodeAnalysis.CSharp.resources.dll
+D:\MLEFIN Project\Sources\Repo\MLEFIN\bin\Debug\net8.0\tr\Microsoft.CodeAnalysis.CSharp.resources.dll
+D:\MLEFIN Project\Sources\Repo\MLEFIN\bin\Debug\net8.0\zh-Hans\Microsoft.CodeAnalysis.CSharp.resources.dll
+D:\MLEFIN Project\Sources\Repo\MLEFIN\bin\Debug\net8.0\zh-Hant\Microsoft.CodeAnalysis.CSharp.resources.dll
+D:\MLEFIN Project\Sources\Repo\MLEFIN\bin\Debug\net8.0\cs\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+D:\MLEFIN Project\Sources\Repo\MLEFIN\bin\Debug\net8.0\de\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+D:\MLEFIN Project\Sources\Repo\MLEFIN\bin\Debug\net8.0\es\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+D:\MLEFIN Project\Sources\Repo\MLEFIN\bin\Debug\net8.0\fr\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+D:\MLEFIN Project\Sources\Repo\MLEFIN\bin\Debug\net8.0\it\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+D:\MLEFIN Project\Sources\Repo\MLEFIN\bin\Debug\net8.0\ja\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+D:\MLEFIN Project\Sources\Repo\MLEFIN\bin\Debug\net8.0\ko\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+D:\MLEFIN Project\Sources\Repo\MLEFIN\bin\Debug\net8.0\pl\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+D:\MLEFIN Project\Sources\Repo\MLEFIN\bin\Debug\net8.0\pt-BR\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+D:\MLEFIN Project\Sources\Repo\MLEFIN\bin\Debug\net8.0\ru\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+D:\MLEFIN Project\Sources\Repo\MLEFIN\bin\Debug\net8.0\tr\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+D:\MLEFIN Project\Sources\Repo\MLEFIN\bin\Debug\net8.0\zh-Hans\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+D:\MLEFIN Project\Sources\Repo\MLEFIN\bin\Debug\net8.0\zh-Hant\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+D:\MLEFIN Project\Sources\Repo\MLEFIN\bin\Debug\net8.0\cs\Microsoft.CodeAnalysis.Workspaces.resources.dll
+D:\MLEFIN Project\Sources\Repo\MLEFIN\bin\Debug\net8.0\de\Microsoft.CodeAnalysis.Workspaces.resources.dll
+D:\MLEFIN Project\Sources\Repo\MLEFIN\bin\Debug\net8.0\es\Microsoft.CodeAnalysis.Workspaces.resources.dll
+D:\MLEFIN Project\Sources\Repo\MLEFIN\bin\Debug\net8.0\fr\Microsoft.CodeAnalysis.Workspaces.resources.dll
+D:\MLEFIN Project\Sources\Repo\MLEFIN\bin\Debug\net8.0\it\Microsoft.CodeAnalysis.Workspaces.resources.dll
+D:\MLEFIN Project\Sources\Repo\MLEFIN\bin\Debug\net8.0\ja\Microsoft.CodeAnalysis.Workspaces.resources.dll
+D:\MLEFIN Project\Sources\Repo\MLEFIN\bin\Debug\net8.0\ko\Microsoft.CodeAnalysis.Workspaces.resources.dll
+D:\MLEFIN Project\Sources\Repo\MLEFIN\bin\Debug\net8.0\pl\Microsoft.CodeAnalysis.Workspaces.resources.dll
+D:\MLEFIN Project\Sources\Repo\MLEFIN\bin\Debug\net8.0\pt-BR\Microsoft.CodeAnalysis.Workspaces.resources.dll
+D:\MLEFIN Project\Sources\Repo\MLEFIN\bin\Debug\net8.0\ru\Microsoft.CodeAnalysis.Workspaces.resources.dll
+D:\MLEFIN Project\Sources\Repo\MLEFIN\bin\Debug\net8.0\tr\Microsoft.CodeAnalysis.Workspaces.resources.dll
+D:\MLEFIN Project\Sources\Repo\MLEFIN\bin\Debug\net8.0\zh-Hans\Microsoft.CodeAnalysis.Workspaces.resources.dll
+D:\MLEFIN Project\Sources\Repo\MLEFIN\bin\Debug\net8.0\zh-Hant\Microsoft.CodeAnalysis.Workspaces.resources.dll
+D:\MLEFIN Project\Sources\Repo\MLEFIN\bin\Debug\net8.0\cs\Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.resources.dll
+D:\MLEFIN Project\Sources\Repo\MLEFIN\bin\Debug\net8.0\de\Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.resources.dll
+D:\MLEFIN Project\Sources\Repo\MLEFIN\bin\Debug\net8.0\es\Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.resources.dll
+D:\MLEFIN Project\Sources\Repo\MLEFIN\bin\Debug\net8.0\fr\Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.resources.dll
+D:\MLEFIN Project\Sources\Repo\MLEFIN\bin\Debug\net8.0\it\Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.resources.dll
+D:\MLEFIN Project\Sources\Repo\MLEFIN\bin\Debug\net8.0\ja\Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.resources.dll
+D:\MLEFIN Project\Sources\Repo\MLEFIN\bin\Debug\net8.0\ko\Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.resources.dll
+D:\MLEFIN Project\Sources\Repo\MLEFIN\bin\Debug\net8.0\pl\Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.resources.dll
+D:\MLEFIN Project\Sources\Repo\MLEFIN\bin\Debug\net8.0\pt-BR\Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.resources.dll
+D:\MLEFIN Project\Sources\Repo\MLEFIN\bin\Debug\net8.0\ru\Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.resources.dll
+D:\MLEFIN Project\Sources\Repo\MLEFIN\bin\Debug\net8.0\tr\Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.resources.dll
+D:\MLEFIN Project\Sources\Repo\MLEFIN\bin\Debug\net8.0\zh-Hans\Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.resources.dll
+D:\MLEFIN Project\Sources\Repo\MLEFIN\bin\Debug\net8.0\zh-Hant\Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.resources.dll
+D:\MLEFIN Project\Sources\Repo\MLEFIN\bin\Debug\net8.0\runtimes\unix\lib\net6.0\Microsoft.Data.SqlClient.dll
+D:\MLEFIN Project\Sources\Repo\MLEFIN\bin\Debug\net8.0\runtimes\win\lib\net6.0\Microsoft.Data.SqlClient.dll
+D:\MLEFIN Project\Sources\Repo\MLEFIN\bin\Debug\net8.0\runtimes\win-arm\native\Microsoft.Data.SqlClient.SNI.dll
+D:\MLEFIN Project\Sources\Repo\MLEFIN\bin\Debug\net8.0\runtimes\win-arm64\native\Microsoft.Data.SqlClient.SNI.dll
+D:\MLEFIN Project\Sources\Repo\MLEFIN\bin\Debug\net8.0\runtimes\win-x64\native\Microsoft.Data.SqlClient.SNI.dll
+D:\MLEFIN Project\Sources\Repo\MLEFIN\bin\Debug\net8.0\runtimes\win-x86\native\Microsoft.Data.SqlClient.SNI.dll
+D:\MLEFIN Project\Sources\Repo\MLEFIN\bin\Debug\net8.0\runtimes\win\lib\net6.0\Microsoft.Win32.SystemEvents.dll
+D:\MLEFIN Project\Sources\Repo\MLEFIN\bin\Debug\net8.0\runtimes\unix\lib\net6.0\System.Drawing.Common.dll
+D:\MLEFIN Project\Sources\Repo\MLEFIN\bin\Debug\net8.0\runtimes\win\lib\net6.0\System.Drawing.Common.dll
+D:\MLEFIN Project\Sources\Repo\MLEFIN\bin\Debug\net8.0\runtimes\win\lib\net6.0\System.Runtime.Caching.dll
+D:\MLEFIN Project\Sources\Repo\MLEFIN\bin\Debug\net8.0\runtimes\win\lib\net6.0\System.Security.Cryptography.ProtectedData.dll
+D:\MLEFIN Project\Sources\Repo\MLEFIN\bin\Debug\net8.0\runtimes\browser\lib\net8.0\System.Text.Encodings.Web.dll
+D:\MLEFIN Project\Sources\Repo\MLEFIN\bin\Debug\net8.0\runtimes\win\lib\net6.0\System.Windows.Extensions.dll
+D:\MLEFIN Project\Sources\Repo\MLEFIN\obj\Debug\net8.0\MLEFIN.csproj.AssemblyReference.cache
+D:\MLEFIN Project\Sources\Repo\MLEFIN\obj\Debug\net8.0\rpswa.dswa.cache.json
+D:\MLEFIN Project\Sources\Repo\MLEFIN\obj\Debug\net8.0\MLEFIN.GeneratedMSBuildEditorConfig.editorconfig
+D:\MLEFIN Project\Sources\Repo\MLEFIN\obj\Debug\net8.0\MLEFIN.AssemblyInfoInputs.cache
+D:\MLEFIN Project\Sources\Repo\MLEFIN\obj\Debug\net8.0\MLEFIN.AssemblyInfo.cs
+D:\MLEFIN Project\Sources\Repo\MLEFIN\obj\Debug\net8.0\MLEFIN.csproj.CoreCompileInputs.cache
+D:\MLEFIN Project\Sources\Repo\MLEFIN\obj\Debug\net8.0\MLEFIN.MvcApplicationPartsAssemblyInfo.cs
+D:\MLEFIN Project\Sources\Repo\MLEFIN\obj\Debug\net8.0\MLEFIN.MvcApplicationPartsAssemblyInfo.cache
+D:\MLEFIN Project\Sources\Repo\MLEFIN\obj\Debug\net8.0\MLEFIN.RazorAssemblyInfo.cache
+D:\MLEFIN Project\Sources\Repo\MLEFIN\obj\Debug\net8.0\MLEFIN.RazorAssemblyInfo.cs
+D:\MLEFIN Project\Sources\Repo\MLEFIN\obj\Debug\net8.0\rjimswa.dswa.cache.json
+D:\MLEFIN Project\Sources\Repo\MLEFIN\obj\Debug\net8.0\rjsmrazor.dswa.cache.json
+D:\MLEFIN Project\Sources\Repo\MLEFIN\obj\Debug\net8.0\rjsmcshtml.dswa.cache.json
+D:\MLEFIN Project\Sources\Repo\MLEFIN\obj\Debug\net8.0\scopedcss\bundle\MLEFIN.styles.css
+D:\MLEFIN Project\Sources\Repo\MLEFIN\obj\Debug\net8.0\staticwebassets.build.json
+D:\MLEFIN Project\Sources\Repo\MLEFIN\obj\Debug\net8.0\staticwebassets.build.json.cache
+D:\MLEFIN Project\Sources\Repo\MLEFIN\obj\Debug\net8.0\staticwebassets.development.json
+D:\MLEFIN Project\Sources\Repo\MLEFIN\obj\Debug\net8.0\staticwebassets.build.endpoints.json
+D:\MLEFIN Project\Sources\Repo\MLEFIN\obj\Debug\net8.0\staticwebassets.upToDateCheck.txt
+D:\MLEFIN Project\Sources\Repo\MLEFIN\obj\Debug\net8.0\MLEFIN.csproj.Up2Date
+D:\MLEFIN Project\Sources\Repo\MLEFIN\obj\Debug\net8.0\MLEFIN.dll
+D:\MLEFIN Project\Sources\Repo\MLEFIN\obj\Debug\net8.0\refint\MLEFIN.dll
+D:\MLEFIN Project\Sources\Repo\MLEFIN\obj\Debug\net8.0\MLEFIN.pdb
+D:\MLEFIN Project\Sources\Repo\MLEFIN\obj\Debug\net8.0\MLEFIN.genruntimeconfig.cache
+D:\MLEFIN Project\Sources\Repo\MLEFIN\obj\Debug\net8.0\ref\MLEFIN.dll
+D:\GitHub\MLE\bin\Debug\net8.0\appsettings.Development.json
+D:\GitHub\MLE\bin\Debug\net8.0\appsettings.json
+D:\GitHub\MLE\bin\Debug\net8.0\MLEFIN.staticwebassets.runtime.json
+D:\GitHub\MLE\bin\Debug\net8.0\MLEFIN.staticwebassets.endpoints.json
+D:\GitHub\MLE\bin\Debug\net8.0\MLEFIN.exe
+D:\GitHub\MLE\bin\Debug\net8.0\MLEFIN.deps.json
+D:\GitHub\MLE\bin\Debug\net8.0\MLEFIN.runtimeconfig.json
+D:\GitHub\MLE\bin\Debug\net8.0\MLEFIN.dll
+D:\GitHub\MLE\bin\Debug\net8.0\MLEFIN.pdb
+D:\GitHub\MLE\bin\Debug\net8.0\Azure.Core.dll
+D:\GitHub\MLE\bin\Debug\net8.0\Azure.Identity.dll
+D:\GitHub\MLE\bin\Debug\net8.0\Humanizer.dll
+D:\GitHub\MLE\bin\Debug\net8.0\Microsoft.Bcl.AsyncInterfaces.dll
+D:\GitHub\MLE\bin\Debug\net8.0\Microsoft.Build.Locator.dll
+D:\GitHub\MLE\bin\Debug\net8.0\Microsoft.CodeAnalysis.dll
+D:\GitHub\MLE\bin\Debug\net8.0\Microsoft.CodeAnalysis.CSharp.dll
+D:\GitHub\MLE\bin\Debug\net8.0\Microsoft.CodeAnalysis.CSharp.Workspaces.dll
+D:\GitHub\MLE\bin\Debug\net8.0\Microsoft.CodeAnalysis.Workspaces.dll
+D:\GitHub\MLE\bin\Debug\net8.0\Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.dll
+D:\GitHub\MLE\bin\Debug\net8.0\Microsoft.CodeAnalysis.Workspaces.MSBuild.dll
+D:\GitHub\MLE\bin\Debug\net8.0\Microsoft.Data.SqlClient.dll
+D:\GitHub\MLE\bin\Debug\net8.0\Microsoft.EntityFrameworkCore.dll
+D:\GitHub\MLE\bin\Debug\net8.0\Microsoft.EntityFrameworkCore.Abstractions.dll
+D:\GitHub\MLE\bin\Debug\net8.0\Microsoft.EntityFrameworkCore.Design.dll
+D:\GitHub\MLE\bin\Debug\net8.0\Microsoft.EntityFrameworkCore.Relational.dll
+D:\GitHub\MLE\bin\Debug\net8.0\Microsoft.EntityFrameworkCore.SqlServer.dll
+D:\GitHub\MLE\bin\Debug\net8.0\Microsoft.Extensions.Caching.Abstractions.dll
+D:\GitHub\MLE\bin\Debug\net8.0\Microsoft.Extensions.Caching.Memory.dll
+D:\GitHub\MLE\bin\Debug\net8.0\Microsoft.Extensions.Configuration.Abstractions.dll
+D:\GitHub\MLE\bin\Debug\net8.0\Microsoft.Extensions.DependencyInjection.dll
+D:\GitHub\MLE\bin\Debug\net8.0\Microsoft.Extensions.DependencyInjection.Abstractions.dll
+D:\GitHub\MLE\bin\Debug\net8.0\Microsoft.Extensions.DependencyModel.dll
+D:\GitHub\MLE\bin\Debug\net8.0\Microsoft.Extensions.Logging.dll
+D:\GitHub\MLE\bin\Debug\net8.0\Microsoft.Extensions.Logging.Abstractions.dll
+D:\GitHub\MLE\bin\Debug\net8.0\Microsoft.Extensions.Options.dll
+D:\GitHub\MLE\bin\Debug\net8.0\Microsoft.Extensions.Primitives.dll
+D:\GitHub\MLE\bin\Debug\net8.0\Microsoft.Identity.Client.dll
+D:\GitHub\MLE\bin\Debug\net8.0\Microsoft.Identity.Client.Extensions.Msal.dll
+D:\GitHub\MLE\bin\Debug\net8.0\Microsoft.IdentityModel.Abstractions.dll
+D:\GitHub\MLE\bin\Debug\net8.0\Microsoft.IdentityModel.JsonWebTokens.dll
+D:\GitHub\MLE\bin\Debug\net8.0\Microsoft.IdentityModel.Logging.dll
+D:\GitHub\MLE\bin\Debug\net8.0\Microsoft.IdentityModel.Protocols.dll
+D:\GitHub\MLE\bin\Debug\net8.0\Microsoft.IdentityModel.Protocols.OpenIdConnect.dll
+D:\GitHub\MLE\bin\Debug\net8.0\Microsoft.IdentityModel.Tokens.dll
+D:\GitHub\MLE\bin\Debug\net8.0\Microsoft.OpenApi.dll
+D:\GitHub\MLE\bin\Debug\net8.0\Microsoft.SqlServer.Server.dll
+D:\GitHub\MLE\bin\Debug\net8.0\Microsoft.Win32.SystemEvents.dll
+D:\GitHub\MLE\bin\Debug\net8.0\Mono.TextTemplating.dll
+D:\GitHub\MLE\bin\Debug\net8.0\Swashbuckle.AspNetCore.Swagger.dll
+D:\GitHub\MLE\bin\Debug\net8.0\Swashbuckle.AspNetCore.SwaggerGen.dll
+D:\GitHub\MLE\bin\Debug\net8.0\Swashbuckle.AspNetCore.SwaggerUI.dll
+D:\GitHub\MLE\bin\Debug\net8.0\System.ClientModel.dll
+D:\GitHub\MLE\bin\Debug\net8.0\System.CodeDom.dll
+D:\GitHub\MLE\bin\Debug\net8.0\System.Composition.AttributedModel.dll
+D:\GitHub\MLE\bin\Debug\net8.0\System.Composition.Convention.dll
+D:\GitHub\MLE\bin\Debug\net8.0\System.Composition.Hosting.dll
+D:\GitHub\MLE\bin\Debug\net8.0\System.Composition.Runtime.dll
+D:\GitHub\MLE\bin\Debug\net8.0\System.Composition.TypedParts.dll
+D:\GitHub\MLE\bin\Debug\net8.0\System.Configuration.ConfigurationManager.dll
+D:\GitHub\MLE\bin\Debug\net8.0\System.Diagnostics.DiagnosticSource.dll
+D:\GitHub\MLE\bin\Debug\net8.0\System.Drawing.Common.dll
+D:\GitHub\MLE\bin\Debug\net8.0\System.Formats.Asn1.dll
+D:\GitHub\MLE\bin\Debug\net8.0\System.IdentityModel.Tokens.Jwt.dll
+D:\GitHub\MLE\bin\Debug\net8.0\System.IO.Pipelines.dll
+D:\GitHub\MLE\bin\Debug\net8.0\System.Memory.Data.dll
+D:\GitHub\MLE\bin\Debug\net8.0\System.Runtime.Caching.dll
+D:\GitHub\MLE\bin\Debug\net8.0\System.Security.Cryptography.ProtectedData.dll
+D:\GitHub\MLE\bin\Debug\net8.0\System.Security.Permissions.dll
+D:\GitHub\MLE\bin\Debug\net8.0\System.Text.Encodings.Web.dll
+D:\GitHub\MLE\bin\Debug\net8.0\System.Text.Json.dll
+D:\GitHub\MLE\bin\Debug\net8.0\System.Windows.Extensions.dll
+D:\GitHub\MLE\bin\Debug\net8.0\cs\Microsoft.CodeAnalysis.resources.dll
+D:\GitHub\MLE\bin\Debug\net8.0\de\Microsoft.CodeAnalysis.resources.dll
+D:\GitHub\MLE\bin\Debug\net8.0\es\Microsoft.CodeAnalysis.resources.dll
+D:\GitHub\MLE\bin\Debug\net8.0\fr\Microsoft.CodeAnalysis.resources.dll
+D:\GitHub\MLE\bin\Debug\net8.0\it\Microsoft.CodeAnalysis.resources.dll
+D:\GitHub\MLE\bin\Debug\net8.0\ja\Microsoft.CodeAnalysis.resources.dll
+D:\GitHub\MLE\bin\Debug\net8.0\ko\Microsoft.CodeAnalysis.resources.dll
+D:\GitHub\MLE\bin\Debug\net8.0\pl\Microsoft.CodeAnalysis.resources.dll
+D:\GitHub\MLE\bin\Debug\net8.0\pt-BR\Microsoft.CodeAnalysis.resources.dll
+D:\GitHub\MLE\bin\Debug\net8.0\ru\Microsoft.CodeAnalysis.resources.dll
+D:\GitHub\MLE\bin\Debug\net8.0\tr\Microsoft.CodeAnalysis.resources.dll
+D:\GitHub\MLE\bin\Debug\net8.0\zh-Hans\Microsoft.CodeAnalysis.resources.dll
+D:\GitHub\MLE\bin\Debug\net8.0\zh-Hant\Microsoft.CodeAnalysis.resources.dll
+D:\GitHub\MLE\bin\Debug\net8.0\cs\Microsoft.CodeAnalysis.CSharp.resources.dll
+D:\GitHub\MLE\bin\Debug\net8.0\de\Microsoft.CodeAnalysis.CSharp.resources.dll
+D:\GitHub\MLE\bin\Debug\net8.0\es\Microsoft.CodeAnalysis.CSharp.resources.dll
+D:\GitHub\MLE\bin\Debug\net8.0\fr\Microsoft.CodeAnalysis.CSharp.resources.dll
+D:\GitHub\MLE\bin\Debug\net8.0\it\Microsoft.CodeAnalysis.CSharp.resources.dll
+D:\GitHub\MLE\bin\Debug\net8.0\ja\Microsoft.CodeAnalysis.CSharp.resources.dll
+D:\GitHub\MLE\bin\Debug\net8.0\ko\Microsoft.CodeAnalysis.CSharp.resources.dll
+D:\GitHub\MLE\bin\Debug\net8.0\pl\Microsoft.CodeAnalysis.CSharp.resources.dll
+D:\GitHub\MLE\bin\Debug\net8.0\pt-BR\Microsoft.CodeAnalysis.CSharp.resources.dll
+D:\GitHub\MLE\bin\Debug\net8.0\ru\Microsoft.CodeAnalysis.CSharp.resources.dll
+D:\GitHub\MLE\bin\Debug\net8.0\tr\Microsoft.CodeAnalysis.CSharp.resources.dll
+D:\GitHub\MLE\bin\Debug\net8.0\zh-Hans\Microsoft.CodeAnalysis.CSharp.resources.dll
+D:\GitHub\MLE\bin\Debug\net8.0\zh-Hant\Microsoft.CodeAnalysis.CSharp.resources.dll
+D:\GitHub\MLE\bin\Debug\net8.0\cs\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+D:\GitHub\MLE\bin\Debug\net8.0\de\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+D:\GitHub\MLE\bin\Debug\net8.0\es\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+D:\GitHub\MLE\bin\Debug\net8.0\fr\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+D:\GitHub\MLE\bin\Debug\net8.0\it\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+D:\GitHub\MLE\bin\Debug\net8.0\ja\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+D:\GitHub\MLE\bin\Debug\net8.0\ko\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+D:\GitHub\MLE\bin\Debug\net8.0\pl\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+D:\GitHub\MLE\bin\Debug\net8.0\pt-BR\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+D:\GitHub\MLE\bin\Debug\net8.0\ru\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+D:\GitHub\MLE\bin\Debug\net8.0\tr\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+D:\GitHub\MLE\bin\Debug\net8.0\zh-Hans\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+D:\GitHub\MLE\bin\Debug\net8.0\zh-Hant\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+D:\GitHub\MLE\bin\Debug\net8.0\cs\Microsoft.CodeAnalysis.Workspaces.resources.dll
+D:\GitHub\MLE\bin\Debug\net8.0\de\Microsoft.CodeAnalysis.Workspaces.resources.dll
+D:\GitHub\MLE\bin\Debug\net8.0\es\Microsoft.CodeAnalysis.Workspaces.resources.dll
+D:\GitHub\MLE\bin\Debug\net8.0\fr\Microsoft.CodeAnalysis.Workspaces.resources.dll
+D:\GitHub\MLE\bin\Debug\net8.0\it\Microsoft.CodeAnalysis.Workspaces.resources.dll
+D:\GitHub\MLE\bin\Debug\net8.0\ja\Microsoft.CodeAnalysis.Workspaces.resources.dll
+D:\GitHub\MLE\bin\Debug\net8.0\ko\Microsoft.CodeAnalysis.Workspaces.resources.dll
+D:\GitHub\MLE\bin\Debug\net8.0\pl\Microsoft.CodeAnalysis.Workspaces.resources.dll
+D:\GitHub\MLE\bin\Debug\net8.0\pt-BR\Microsoft.CodeAnalysis.Workspaces.resources.dll
+D:\GitHub\MLE\bin\Debug\net8.0\ru\Microsoft.CodeAnalysis.Workspaces.resources.dll
+D:\GitHub\MLE\bin\Debug\net8.0\tr\Microsoft.CodeAnalysis.Workspaces.resources.dll
+D:\GitHub\MLE\bin\Debug\net8.0\zh-Hans\Microsoft.CodeAnalysis.Workspaces.resources.dll
+D:\GitHub\MLE\bin\Debug\net8.0\zh-Hant\Microsoft.CodeAnalysis.Workspaces.resources.dll
+D:\GitHub\MLE\bin\Debug\net8.0\cs\Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.resources.dll
+D:\GitHub\MLE\bin\Debug\net8.0\de\Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.resources.dll
+D:\GitHub\MLE\bin\Debug\net8.0\es\Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.resources.dll
+D:\GitHub\MLE\bin\Debug\net8.0\fr\Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.resources.dll
+D:\GitHub\MLE\bin\Debug\net8.0\it\Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.resources.dll
+D:\GitHub\MLE\bin\Debug\net8.0\ja\Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.resources.dll
+D:\GitHub\MLE\bin\Debug\net8.0\ko\Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.resources.dll
+D:\GitHub\MLE\bin\Debug\net8.0\pl\Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.resources.dll
+D:\GitHub\MLE\bin\Debug\net8.0\pt-BR\Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.resources.dll
+D:\GitHub\MLE\bin\Debug\net8.0\ru\Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.resources.dll
+D:\GitHub\MLE\bin\Debug\net8.0\tr\Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.resources.dll
+D:\GitHub\MLE\bin\Debug\net8.0\zh-Hans\Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.resources.dll
+D:\GitHub\MLE\bin\Debug\net8.0\zh-Hant\Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.resources.dll
+D:\GitHub\MLE\bin\Debug\net8.0\runtimes\unix\lib\net6.0\Microsoft.Data.SqlClient.dll
+D:\GitHub\MLE\bin\Debug\net8.0\runtimes\win\lib\net6.0\Microsoft.Data.SqlClient.dll
+D:\GitHub\MLE\bin\Debug\net8.0\runtimes\win-arm\native\Microsoft.Data.SqlClient.SNI.dll
+D:\GitHub\MLE\bin\Debug\net8.0\runtimes\win-arm64\native\Microsoft.Data.SqlClient.SNI.dll
+D:\GitHub\MLE\bin\Debug\net8.0\runtimes\win-x64\native\Microsoft.Data.SqlClient.SNI.dll
+D:\GitHub\MLE\bin\Debug\net8.0\runtimes\win-x86\native\Microsoft.Data.SqlClient.SNI.dll
+D:\GitHub\MLE\bin\Debug\net8.0\runtimes\win\lib\net6.0\Microsoft.Win32.SystemEvents.dll
+D:\GitHub\MLE\bin\Debug\net8.0\runtimes\unix\lib\net6.0\System.Drawing.Common.dll
+D:\GitHub\MLE\bin\Debug\net8.0\runtimes\win\lib\net6.0\System.Drawing.Common.dll
+D:\GitHub\MLE\bin\Debug\net8.0\runtimes\win\lib\net6.0\System.Runtime.Caching.dll
+D:\GitHub\MLE\bin\Debug\net8.0\runtimes\win\lib\net6.0\System.Security.Cryptography.ProtectedData.dll
+D:\GitHub\MLE\bin\Debug\net8.0\runtimes\browser\lib\net8.0\System.Text.Encodings.Web.dll
+D:\GitHub\MLE\bin\Debug\net8.0\runtimes\win\lib\net6.0\System.Windows.Extensions.dll
+D:\GitHub\MLE\obj\Debug\net8.0\MLEFIN.csproj.AssemblyReference.cache
+D:\GitHub\MLE\obj\Debug\net8.0\rpswa.dswa.cache.json
+D:\GitHub\MLE\obj\Debug\net8.0\MLEFIN.GeneratedMSBuildEditorConfig.editorconfig
+D:\GitHub\MLE\obj\Debug\net8.0\MLEFIN.AssemblyInfoInputs.cache
+D:\GitHub\MLE\obj\Debug\net8.0\MLEFIN.AssemblyInfo.cs
+D:\GitHub\MLE\obj\Debug\net8.0\MLEFIN.csproj.CoreCompileInputs.cache
+D:\GitHub\MLE\obj\Debug\net8.0\MLEFIN.MvcApplicationPartsAssemblyInfo.cs
+D:\GitHub\MLE\obj\Debug\net8.0\MLEFIN.MvcApplicationPartsAssemblyInfo.cache
+D:\GitHub\MLE\obj\Debug\net8.0\MLEFIN.RazorAssemblyInfo.cache
+D:\GitHub\MLE\obj\Debug\net8.0\MLEFIN.RazorAssemblyInfo.cs
+D:\GitHub\MLE\obj\Debug\net8.0\MLEFIN.sourcelink.json
+D:\GitHub\MLE\obj\Debug\net8.0\rjimswa.dswa.cache.json
+D:\GitHub\MLE\obj\Debug\net8.0\rjsmrazor.dswa.cache.json
+D:\GitHub\MLE\obj\Debug\net8.0\rjsmcshtml.dswa.cache.json
+D:\GitHub\MLE\obj\Debug\net8.0\scopedcss\bundle\MLEFIN.styles.css
+D:\GitHub\MLE\obj\Debug\net8.0\staticwebassets.build.json
+D:\GitHub\MLE\obj\Debug\net8.0\staticwebassets.build.json.cache
+D:\GitHub\MLE\obj\Debug\net8.0\staticwebassets.development.json
+D:\GitHub\MLE\obj\Debug\net8.0\staticwebassets.build.endpoints.json
+D:\GitHub\MLE\obj\Debug\net8.0\MLEFIN.csproj.Up2Date
+D:\GitHub\MLE\obj\Debug\net8.0\MLEFIN.dll
+D:\GitHub\MLE\obj\Debug\net8.0\refint\MLEFIN.dll
+D:\GitHub\MLE\obj\Debug\net8.0\MLEFIN.pdb
+D:\GitHub\MLE\obj\Debug\net8.0\MLEFIN.genruntimeconfig.cache
+D:\GitHub\MLE\obj\Debug\net8.0\ref\MLEFIN.dll

@@ -1,0 +1,157 @@
+@page
+@using MLEFIN.ViewModels
+@model MLEFIN.Pages.VendorPurchaseModel
+@{
+    Layout = "/Pages/Shared/_Layout.cshtml";
+    ViewData["Title"] = "Vendor Purchases";
+}
+
+@section Styles {
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+}
+
+<div class="container-fluid">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2 class="mb-0">Vendor Purchases</h2>
+        <div class="d-flex gap-2">
+            <button class="btn btn-outline-secondary" type="button" data-bs-toggle="collapse" data-bs-target="#filterSection">
+                <i class="fas fa-filter"></i> Filters
+            </button>
+            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#invoiceModal">
+                <i class="fas fa-plus"></i> Add Invoice
+            </button>
+        </div>
+    </div>
+
+    <div class="collapse mb-4" id="filterSection">
+        <div class="card">
+            <div class="card-body bg-light">
+                <form method="get" class="row g-3">
+                    <div class="col-md-3">
+                        <label class="form-label">Date From</label>
+                        <input type="date" class="form-control" asp-for="DateFrom" />
+                    </div>
+                    <div class="col-md-3">
+                        <label class="form-label">Date To</label>
+                        <input type="date" class="form-control" asp-for="DateTo" />
+                    </div>
+                    <div class="col-md-3">
+                        <label class="form-label">Vendor</label>
+                        <select asp-for="VendorFilter" asp-items="Model.Vendors" class="form-select">
+                            <option value="">All Vendors</option>
+                        </select>
+                    </div>
+                    <div class="col-md-3">
+                        <label class="form-label">Sort By</label>
+                        <select asp-for="SortBy" class="form-select">
+                            <option value="DateDesc">Date (Newest)</option>
+                            <option value="DateAsc">Date (Oldest)</option>
+                            <option value="AmountDesc">Amount (Highest)</option>
+                            <option value="AmountAsc">Amount (Lowest)</option>
+                        </select>
+                    </div>
+                    <div class="col-12 d-flex justify-content-end gap-2">
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-search"></i> Apply
+                        </button>
+                        <a asp-page="./VendorPurchase" class="btn btn-outline-secondary">
+                            <i class="fas fa-undo"></i> Reset
+                        </a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="table-responsive">
+            <table class="table table-hover align-middle">
+                <thead class="table-light">
+                    <tr>
+                        <th class="sticky-col">Date</th>
+                        <th class="d-none d-lg-table-cell">Vendor</th>
+                        <th>Invoice #</th>
+                        <th class="d-none d-lg-table-cell text-end">Amount</th>
+                        <th class="d-none d-md-table-cell">Status</th>
+                        <th class="text-center">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (Model.Invoices.Any())
+                    {
+                    foreach (var invoice in Model.Invoices)
+                        {
+                    <tr class="clickable-row" data-invoice-id="@invoice.Id">
+                        <td class="sticky-col">
+                            <div class="d-flex flex-column">
+                                <strong>@invoice.InvoiceDate.ToString("MMM dd")</strong>
+                                <small class="text-muted">@invoice.InvoiceDate.ToString("yyyy")</small>
+                            </div>
+                        </td>
+                        <td class="d-none d-lg-table-cell">@invoice.VendorCompany?.CompanyName</td>
+                        <td>
+                            <span class="badge bg-light-secondary">@invoice.InvoiceNumber</span>
+                        </td>
+                        <td class="d-none d-lg-table-cell text-end">
+                            <strong>@invoice.Amount.ToString("C2")</strong>
+                        </td>
+                        <td class="d-none d-md-table-cell">
+                            @{
+                                        var statusClass = "bg-secondary"; // Default color
+                                        if (invoice.Status == "Paid") { statusClass = "bg-success"; }
+                                        else if (invoice.Status == "Pending") { statusClass = "bg-warning"; }
+                                        else if (invoice.Status == "Overdue") { statusClass = "bg-danger"; }
+                            }
+                            <span class="badge @statusClass">@invoice.Status</span>
+                        </td>
+                        <td>
+                            <div class="d-flex justify-content-center gap-2">
+                                <button type="button" class="btn btn-sm btn-icon btn-primary"
+                                        onclick="viewInvoice(@invoice.Id)" title="View Details">
+                                    <i class="fas fa-eye"></i>
+                                </button>
+                                <button type="button" class="btn btn-sm btn-icon btn-warning"
+                                        onclick="editInvoice(@invoice.Id)" title="Edit">
+                                    <i class="fas fa-edit"></i>
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+                        }
+                    }
+                    else
+                    {
+                    <tr>
+                        <td colspan="6">
+                            <div class="p-4 text-center">
+                                <i class="fas fa-file-invoice fa-3x text-muted mb-3"></i>
+                                <h5>No Invoices Found</h5>
+                                <p class="text-muted">No vendor invoices match your current filters.</p>
+                            </div>
+                        </td>
+                    </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<partial name="_VendorInvoiceModal" model='new VendorInvoiceModalViewModel
+                                     {
+                                         Invoice = Model.VendorInvoiceRecord,
+                                         Vendors = Model.Vendors,
+                                         Categories = Model.Categories
+                                     }' />
+<partial name="_AddPartsModal" model='new VendorInvoiceModalViewModel
+                                     {
+                                         Invoice = Model.VendorInvoiceRecord
+                                     }' />
+<partial name="_CoreModal" model='new VendorCore()' />
+<partial name="_WarrantyModal" model='new VendorWarranty()' />
+
+
+@section Scripts {
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    <script src="~/js/vendorPurchase.js"></script>
+}

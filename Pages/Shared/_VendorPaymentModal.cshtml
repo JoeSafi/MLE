@@ -1,0 +1,63 @@
+
+@model MLEFIN.Models.VendorPayment
+
+<div class="modal fade" id="paymentModal" tabindex="-1" role="dialog" aria-labelledby="paymentModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="paymentModalLabel">Vendor Payment</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="paymentForm">
+                    <input type="hidden" asp-for="Id" />
+                    <div class="form-group">
+                        <label asp-for="PaymentDate"></label>
+                        <input asp-for="PaymentDate" class="form-control" type="date" />
+                        <span asp-validation-for="PaymentDate" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="VendorCompanyID"></label>
+                        <select asp-for="VendorCompanyID" asp-items="@((SelectList)ViewData["Vendors"])" class="form-control">
+                            <option value="">-- Select Vendor --</option>
+                        </select>
+                        <span asp-validation-for="VendorCompanyID" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Amount"></label>
+                        <input asp-for="Amount" class="form-control" />
+                        <span asp-validation-for="Amount" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="PaymentMethod"></label>
+                        <select asp-for="PaymentMethod" class="form-control">
+                            <option value="Check">Check</option>
+                            <option value="ACH">ACH</option>
+                            <option value="Credit Card">Credit Card</option>
+                            <option value="Cash">Cash</option>
+                        </select>
+                        <span asp-validation-for="PaymentMethod" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="CheckNumber"></label>
+                        <input asp-for="CheckNumber" class="form-control" />
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="ReferenceNumber"></label>
+                        <input asp-for="ReferenceNumber" class="form-control" />
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Notes"></label>
+                        <textarea asp-for="Notes" class="form-control"></textarea>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" id="savePayment">Save</button>
+            </div>
+        </div>
+    </div>
+</div>

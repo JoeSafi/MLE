@@ -1,0 +1,32 @@
+@model MLEFIN.Models.VendorCore
+
+<div class="modal fade" id="coreModal" tabindex="-1" aria-labelledby="coreModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="coreModalLabel">Add Core</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <!-- Core form -->
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" id="saveCore" class="btn btn-primary">Save Core</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const coreCheck = document.querySelector('input[asp-for="Invoice.HasCore"]');
+        const coreModal = new bootstrap.Modal(document.getElementById('coreModal'));
+
+        coreCheck.addEventListener('change', function () {
+            if (this.checked) {
+                coreModal.show();
+            }
+        });
+    });
+</script>

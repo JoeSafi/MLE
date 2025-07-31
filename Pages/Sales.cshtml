@@ -1,0 +1,1129 @@
+﻿@page
+@model MLEFIN.Pages.SalesModel
+@{
+    Layout = "/Pages/Shared/_Layout.cshtml";
+    ViewData["Title"] = "Sales";
+}
+
+<div class="container-fluid">
+    <h2 class="mb-4">Daily Sales</h2>
+
+    <div class="mb-3 d-flex flex-column flex-md-row justify-content-between gap-2">
+        <button class="btn btn-outline-secondary" type="button" data-bs-toggle="collapse" data-bs-target="#filterSection" aria-expanded="false">
+            <i class="fas fa-filter"></i> Filter & Sort
+        </button>
+        <div class="d-flex flex-column flex-sm-row gap-2">
+            <a href="/Bank" class="btn btn-outline-success">
+                <i class="fas fa-university"></i> View Bank Transactions
+            </a>
+            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#salesModal" onclick="openAddSalesModal()">
+                <i class="fas fa-plus"></i> Add Sales
+            </button>
+        </div>
+    </div>
+
+    <!-- Filter Section -->
+    <div class="collapse mb-4" id="filterSection">
+        <div class="card card-body bg-light">
+            <form method="get">
+                <div class="row g-3">
+                    <div class="col-lg-4 col-md-6">
+                        <label for="DateFrom" class="form-label">Date From</label>
+                        <input asp-for="DateFrom" class="form-control" type="date" />
+                    </div>
+                    <div class="col-lg-4 col-md-6">
+                        <label for="DateTo" class="form-label">Date To</label>
+                        <input asp-for="DateTo" class="form-control" type="date" />
+                    </div>
+                    <div class="col-lg-4 col-md-12">
+                        <label for="SortBy" class="form-label">Sort By</label>
+                        <select asp-for="SortBy" asp-items="Model.SortByList" class="form-select"></select>
+                    </div>
+                </div>
+                <div class="row g-3 mt-2">
+                    <div class="col-12 d-flex flex-column flex-sm-row justify-content-end gap-2">
+                        <button type="submit" class="btn btn-primary">Apply Filter & Sort</button>
+                        <a asp-page="/Sales" class="btn btn-outline-secondary">Clear</a>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    @{
+        var hasSalesErrors = false;
+        if (!ViewData.ModelState.IsValid)
+        {
+            hasSalesErrors = ViewData.ModelState.Any(x =>
+            (x.Key.StartsWith("SalesRecord.") || x.Key.StartsWith("ChecksJson") || string.IsNullOrEmpty(x.Key)) &&
+            x.Value.Errors.Any() &&
+            !x.Key.Equals("SortBy") &&
+            !x.Key.Equals("DateFrom") &&
+            !x.Key.Equals("DateTo"));
+        }
+    }
+
+    @if (hasSalesErrors)
+    {
+        <div class="alert alert-danger mb-3">
+            <h5>Please fix the following errors:</h5>
+            @foreach (var modelState in ViewData.ModelState)
+            {
+                if ((modelState.Key.StartsWith("SalesRecord.") || modelState.Key.StartsWith("ChecksJson") || string.IsNullOrEmpty(modelState.Key)) &&
+                modelState.Value.Errors.Any() &&
+                !modelState.Key.Equals("SortBy") &&
+                !modelState.Key.Equals("DateFrom") &&
+                !modelState.Key.Equals("DateTo"))
+                {
+                    foreach (var error in modelState.Value.Errors)
+                    {
+                        <div class="text-danger">@error.ErrorMessage</div>
+                    }
+                }
+            }
+        </div>
+    }
+
+    <!-- Quick Stats -->
+    <div class="row mb-4 g-3">
+        <div class="col-xl-3 col-lg-6 col-md-6">
+            <div class="card text-center h-100">
+                <div class="card-body d-flex flex-column justify-content-center">
+                    <h6 class="card-title text-primary mb-2">Total Sales</h6>
+                    <h4 class="card-text mb-0">@Model.SalesRecords.Sum(s => s.TotalSales).ToString("C2")</h4>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-3 col-lg-6 col-md-6">
+            <div class="card text-center h-100">
+                <div class="card-body d-flex flex-column justify-content-center">
+                    <h6 class="card-title text-success mb-2">Total Deposits</h6>
+                    <h4 class="card-text mb-0">@Model.SalesRecords.Sum(s => s.TotalDeposits).ToString("C2")</h4>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-3 col-lg-6 col-md-6">
+            <div class="card text-center h-100">
+                <div class="card-body d-flex flex-column justify-content-center">
+                    <h6 class="card-title text-info mb-2">Cars Serviced</h6>
+                    <h4 class="card-text mb-0">@Model.SalesRecords.Sum(s => s.CarCount)</h4>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-3 col-lg-6 col-md-6">
+            <div class="card text-center h-100">
+                <div class="card-body d-flex flex-column justify-content-center">
+                    <h6 class="card-title text-warning mb-2">Avg per Car</h6>
+                    <h4 class="card-text mb-0">@(Model.SalesRecords.Sum(s => s.CarCount) > 0 ? (Model.SalesRecords.Sum(s => s.Lube) / Model.SalesRecords.Sum(s => s.CarCount)).ToString("C2") : "$0.00")</h4>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Sales Table -->
+    <div class="table-responsive mt-4">
+        <table class="table table-striped table-bordered table-hover">
+            <thead class="table-dark">
+                <tr>
+                    <th class="sticky-col">Date</th>
+                    <th class="d-none d-lg-table-cell">Lube</th>
+                    <th class="d-none d-lg-table-cell">Auto Repair</th>
+                    <th class="d-none d-lg-table-cell">Tires</th>
+                    <th class="d-none d-lg-table-cell">Other Sales</th>
+                    <th class="d-none d-lg-table-cell">Tax</th>
+                    <th class="d-none d-md-table-cell">Car Count</th>
+                    <th class="d-none d-lg-table-cell">Average</th>
+                    <th>Total Sales</th>
+                    <th class="d-none d-md-table-cell">Bank</th>
+                    <th class="d-none d-md-table-cell">Cash</th>
+                    <th>Total Deposits</th>
+                    <th>Short/Over</th>
+                    <th class="no-sort">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var sale in Model.SalesRecords)
+                {
+                    <tr class="clickable-row" data-sales-id="@sale.Id" style="cursor: pointer;" title="Click to view details">
+                        <td class="sticky-col bg-white">
+                            <div class="d-flex flex-column">
+                                <strong class="text-nowrap">@sale.SalesDate.ToString("ddd, MMM dd")</strong>
+                                <small class="text-muted">@sale.SalesDate.Year</small>
+                            </div>
+                        </td>
+                        <td class="text-success d-none d-lg-table-cell">@sale.Lube.ToString("C2")</td>
+                        <td class="text-info d-none d-lg-table-cell">@sale.AutoRepair.ToString("C2")</td>
+                        <td class="text-warning d-none d-lg-table-cell">@sale.Tires.ToString("C2")</td>
+                        <td class="text-secondary d-none d-lg-table-cell">@sale.OtherSales.ToString("C2")</td>
+                        <td class="text-dark d-none d-lg-table-cell">@sale.Tax.ToString("C2")</td>
+                        <td class="text-center d-none d-md-table-cell">
+                            <span class="badge bg-primary">@sale.CarCount</span>
+                        </td>
+                        <td class="text-success d-none d-lg-table-cell">@sale.Average.ToString("C2")</td>
+                        <td class="text-center">
+                            <strong class="text-primary">@sale.TotalSales.ToString("C2")</strong>
+                        </td>
+                        <td class="d-none d-md-table-cell" title="CC ACH: @sale.Bank.ToString("C2"), Checks: @sale.TotalChecks.ToString("C2")">
+                            <span class="badge bg-info">@sale.TotalBankDeposits.ToString("C2")</span>
+                        </td>
+                        <td class="d-none d-md-table-cell">
+                            <span class="badge bg-success">@sale.Cash.ToString("C2")</span>
+                        </td>
+                        <td class="text-center">
+                            <strong class="text-success">@sale.TotalDeposits.ToString("C2")</strong>
+                        </td>
+                        <td class="text-center @(sale.ShortOver < 0 ? "text-danger" : sale.ShortOver > 0 ? "text-success" : "text-dark")">
+                            <strong>@sale.ShortOver.ToString("C2")</strong>
+                            @if (sale.ShortOver != 0)
+                            {
+                                <i class="fas @(sale.ShortOver > 0 ? "fa-arrow-up" : "fa-arrow-down") d-none d-sm-inline"></i>
+                            }
+                        </td>
+                        <td class="action-cell">
+                            <div class="btn-group-vertical btn-group-sm d-lg-none" role="group">
+                                <button type="button" class="btn btn-sm btn-warning" onclick="editSalesRecord(@sale.Id)">
+                                    <i class="fas fa-edit"></i>
+                                </button>
+                                <form method="post" asp-page-handler="Delete" asp-route-id="@sale.Id" class="d-inline">
+                                    @Html.AntiForgeryToken()
+                                    <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Are you sure you want to delete this sales record? This will also remove associated bank transactions.');">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                </form>
+                            </div>
+                            <div class="d-none d-lg-flex gap-1">
+                                <button type="button" class="btn btn-sm btn-warning" onclick="editSalesRecord(@sale.Id)">
+                                    <i class="fas fa-edit"></i> Edit
+                                </button>
+                                <form method="post" asp-page-handler="Delete" asp-route-id="@sale.Id" class="d-inline">
+                                    @Html.AntiForgeryToken()
+                                    <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Are you sure you want to delete this sales record? This will also remove associated bank transactions.');">
+                                        <i class="fas fa-trash"></i> Delete
+                                    </button>
+                                </form>
+                            </div>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+
+    @if (!Model.SalesRecords.Any())
+    {
+        <div class="alert alert-info text-center">
+            <h5>No sales records found</h5>
+            <p>Start by adding your first sales record using the button above.</p>
+        </div>
+    }
+</div>
+
+<!-- Add/Edit Sales Modal -->
+<div class="modal fade" id="salesModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-xl modal-dialog-scrollable">
+        <div class="modal-content">
+            <form method="post" id="salesForm">
+                @Html.AntiForgeryToken()
+                <div class="modal-header bg-primary text-white">
+                    <h5 class="modal-title" id="modalTitle">@(Model.SalesRecord.Id == 0 ? "Add Daily Sales" : "Edit Sales")</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <input type="hidden" asp-for="SalesRecord.Id" id="salesRecordId" />
+                    <input type="hidden" asp-for="ChecksJson" id="checksJsonField" />
+
+                    <div class="row mb-4">
+                        <div class="col-12">
+                            <label asp-for="SalesRecord.SalesDate" class="form-label fw-bold">Sales Date *</label>
+                            <input asp-for="SalesRecord.SalesDate" class="form-control" type="date" id="salesDate" />
+                            <span asp-validation-for="SalesRecord.SalesDate" class="text-danger"></span>
+                        </div>
+                    </div>
+
+                    <h6 class="mb-3 text-primary border-bottom pb-2">Business Activities</h6>
+                    <div class="row mb-3 g-3">
+                        <div class="col-lg-3 col-md-6">
+                            <label asp-for="SalesRecord.Lube" class="form-label">Lube</label>
+                            <input asp-for="SalesRecord.Lube" class="form-control sales-input" type="number" step="0.01" min="0" id="lube" onchange="calculateTotals()" />
+                            <span asp-validation-for="SalesRecord.Lube" class="text-danger"></span>
+                        </div>
+                        <div class="col-lg-3 col-md-6">
+                            <label asp-for="SalesRecord.AutoRepair" class="form-label">Auto Repair</label>
+                            <input asp-for="SalesRecord.AutoRepair" class="form-control sales-input" type="number" step="0.01" min="0" id="autoRepair" onchange="calculateTotals()" />
+                            <span asp-validation-for="SalesRecord.AutoRepair" class="text-danger"></span>
+                        </div>
+                        <div class="col-lg-3 col-md-6">
+                            <label asp-for="SalesRecord.Tires" class="form-label">Tires</label>
+                            <input asp-for="SalesRecord.Tires" class="form-control sales-input" type="number" step="0.01" min="0" id="tires" onchange="calculateTotals()" />
+                            <span asp-validation-for="SalesRecord.Tires" class="text-danger"></span>
+                        </div>
+                        <div class="col-lg-3 col-md-6">
+                            <label asp-for="SalesRecord.OtherSales" class="form-label">Other Sales</label>
+                            <input asp-for="SalesRecord.OtherSales" class="form-control sales-input" type="number" step="0.01" min="0" id="otherSales" onchange="calculateTotals()" />
+                            <span asp-validation-for="SalesRecord.OtherSales" class="text-danger"></span>
+                        </div>
+                    </div>
+
+                    <div class="row mb-4 g-3">
+                        <div class="col-lg-4 col-md-6">
+                            <label asp-for="SalesRecord.Tax" class="form-label">Sales Tax</label>
+                            <input asp-for="SalesRecord.Tax" class="form-control sales-input" type="number" step="0.01" min="0" id="tax" onchange="calculateTotals()" />
+                            <span asp-validation-for="SalesRecord.Tax" class="text-danger"></span>
+                        </div>
+                        <div class="col-lg-4 col-md-6">
+                            <label asp-for="SalesRecord.CarCount" class="form-label">Car Count</label>
+                            <input asp-for="SalesRecord.CarCount" class="form-control car-count-input" type="number" min="0" id="carCount" onchange="calculateTotals()" />
+                            <span asp-validation-for="SalesRecord.CarCount" class="text-danger"></span>
+                        </div>
+                        <div class="col-lg-4 col-md-12">
+                            <label class="form-label">Average</label>
+                            <input type="text" class="form-control" id="averageDisplay" readonly style="background-color: #e9ecef;" />
+                        </div>
+                    </div>
+
+                    <div class="row mb-4">
+                        <div class="col-12">
+                            <label class="form-label fw-bold">Total Sales</label>
+                            <input type="text" class="form-control fs-5 fw-bold" id="totalSalesDisplay" readonly style="background-color: #e9ecef;" />
+                        </div>
+                    </div>
+
+                    <h6 class="mb-3 text-success border-bottom pb-2">Deposits (Creates Bank Transactions)</h6>
+                    <div class="row mb-3 g-3">
+                        <div class="col-md-6">
+                            <label asp-for="SalesRecord.Bank" class="form-label">Bank Deposit (CC ACH)</label>
+                            <input asp-for="SalesRecord.Bank" class="form-control deposit-input" type="number" step="0.01" min="0" id="bank" onchange="calculateTotals()" />
+                            <span asp-validation-for="SalesRecord.Bank" class="text-danger"></span>
+                            <small class="form-text text-muted">Creates Bank transaction with CC ACH deposit type</small>
+                        </div>
+                        <div class="col-md-6">
+                            <label asp-for="SalesRecord.Cash" class="form-label">Cash Deposit</label>
+                            <input asp-for="SalesRecord.Cash" class="form-control deposit-input" type="number" step="0.01" min="0" id="cash" onchange="calculateTotals()" />
+                            <span asp-validation-for="SalesRecord.Cash" class="text-danger"></span>
+                            <small class="form-text text-muted">Creates Cash transaction with Cash deposit type</small>
+                        </div>
+                    </div>
+
+                    <!-- Checks Section -->
+                    <div class="row mb-3">
+                        <div class="col-12">
+                            <label class="form-label">Check Deposits</label>
+                            <div id="checksContainer" class="border rounded p-3 bg-light">
+                                <!-- Check entries will be dynamically added here -->
+                            </div>
+                            <button type="button" class="btn btn-sm btn-success mt-2" id="addCheckBtn" onclick="addCheckRow()">
+                                <i class="fas fa-plus"></i> Add Check
+                            </button>
+                            <small class="form-text text-muted">Each check creates a Bank transaction with Check deposit type</small>
+                        </div>
+                    </div>
+
+                    <div class="row mb-3 g-3">
+                        <div class="col-lg-4 col-md-6">
+                            <label class="form-label">Total Checks</label>
+                            <input type="text" class="form-control" id="totalChecksDisplay" readonly style="background-color: #e9ecef;" />
+                        </div>
+                        <div class="col-lg-4 col-md-6">
+                            <label class="form-label fw-bold">Total Deposits</label>
+                            <input type="text" class="form-control fw-bold" id="totalDepositsDisplay" readonly style="background-color: #e9ecef;" />
+                        </div>
+                        <div class="col-lg-4 col-md-12">
+                            <label class="form-label fw-bold">Short/Over</label>
+                            <input type="text" class="form-control fw-bold" id="shortOverDisplay" readonly style="background-color: #e9ecef;" />
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer flex-column flex-sm-row gap-2">
+                    <button type="submit" class="btn btn-primary w-100 w-sm-auto" id="submitBtn">
+                        <i class="fas fa-save"></i> @(Model.SalesRecord.Id == 0 ? "Save Sales" : "Update Sales")
+                    </button>
+                    <button type="button" class="btn btn-secondary w-100 w-sm-auto" data-bs-dismiss="modal">
+                        <i class="fas fa-times"></i> Cancel
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- View Sales Detail Modal (Read-only) -->
+<div class="modal fade" id="viewSalesModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-xl modal-dialog-scrollable">
+        <div class="modal-content">
+            <div class="modal-header bg-info text-white">
+                <h5 class="modal-title">Sales Transaction Details</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="row mb-3">
+                    <div class="col-12">
+                        <label class="form-label fw-bold">Sales Date</label>
+                        <div class="form-control-plaintext border p-2 bg-light" id="viewSalesDate">-</div>
+                    </div>
+                </div>
+
+                <h6 class="mb-3 text-primary border-bottom pb-2">Business Activities</h6>
+                <div class="row mb-3 g-3">
+                    <div class="col-lg-3 col-md-6">
+                        <label class="form-label fw-bold">Lube</label>
+                        <div class="form-control-plaintext border p-2 bg-light" id="viewLube">-</div>
+                    </div>
+                    <div class="col-lg-3 col-md-6">
+                        <label class="form-label fw-bold">Auto Repair</label>
+                        <div class="form-control-plaintext border p-2 bg-light" id="viewAutoRepair">-</div>
+                    </div>
+                    <div class="col-lg-3 col-md-6">
+                        <label class="form-label fw-bold">Tires</label>
+                        <div class="form-control-plaintext border p-2 bg-light" id="viewTires">-</div>
+                    </div>
+                    <div class="col-lg-3 col-md-6">
+                        <label class="form-label fw-bold">Other Sales</label>
+                        <div class="form-control-plaintext border p-2 bg-light" id="viewOtherSales">-</div>
+                    </div>
+                </div>
+
+                <div class="row mb-3 g-3">
+                    <div class="col-lg-4 col-md-6">
+                        <label class="form-label fw-bold">Sales Tax</label>
+                        <div class="form-control-plaintext border p-2 bg-light" id="viewTax">-</div>
+                    </div>
+                    <div class="col-lg-4 col-md-6">
+                        <label class="form-label fw-bold">Car Count</label>
+                        <div class="form-control-plaintext border p-2 bg-light" id="viewCarCount">-</div>
+                    </div>
+                    <div class="col-lg-4 col-md-12">
+                        <label class="form-label fw-bold">Average</label>
+                        <div class="form-control-plaintext border p-2 bg-light" id="viewAverage">-</div>
+                    </div>
+                </div>
+
+                <div class="row mb-4">
+                    <div class="col-12">
+                        <label class="form-label fw-bold">Total Sales</label>
+                        <div class="form-control-plaintext border p-2 bg-light fw-bold fs-5" id="viewTotalSales">-</div>
+                    </div>
+                </div>
+
+                <h6 class="mb-3 text-success border-bottom pb-2">Deposits</h6>
+                <div class="row mb-3 g-3">
+                    <div class="col-lg-4 col-md-6">
+                        <label class="form-label fw-bold">Bank Deposit (CC ACH)</label>
+                        <div class="form-control-plaintext border p-2 bg-light" id="viewBank">-</div>
+                    </div>
+                    <div class="col-lg-4 col-md-6">
+                        <label class="form-label fw-bold">Cash Deposit</label>
+                        <div class="form-control-plaintext border p-2 bg-light" id="viewCash">-</div>
+                    </div>
+                    <div class="col-lg-4 col-md-12">
+                        <label class="form-label fw-bold">Total Checks</label>
+                        <div class="form-control-plaintext border p-2 bg-light" id="viewTotalChecks">-</div>
+                    </div>
+                </div>
+
+                <!-- Checks Detail Section -->
+                <div class="row mb-3" id="checksDetailSection">
+                    <div class="col-12">
+                        <label class="form-label fw-bold">Check Details</label>
+                        <div class="border p-3 bg-light">
+                            <div id="viewChecksContainer">
+                                <!-- Check details will be populated here -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row mb-3 g-3">
+                    <div class="col-md-6">
+                        <label class="form-label fw-bold">Total Deposits</label>
+                        <div class="form-control-plaintext border p-2 bg-light fw-bold fs-5" id="viewTotalDeposits">-</div>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label fw-bold">Short/Over</label>
+                        <div class="form-control-plaintext border p-2 bg-light fw-bold fs-5" id="viewShortOver">-</div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer flex-column flex-sm-row gap-2">
+                <button type="button" class="btn btn-secondary w-100 w-sm-auto" onclick="editFromView()" id="editFromViewBtn">
+                    <i class="fas fa-edit"></i> Edit
+                </button>
+                <button type="button" class="btn btn-primary w-100 w-sm-auto" data-bs-dismiss="modal">
+                    <i class="fas fa-times"></i> Close
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        // Global variables
+        var checksData = [];
+        var currentViewSalesId = 0;
+        var salesData = [];
+        var salesModal, viewSalesModal;
+
+        // Document ready
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('Sales page initializing...');
+
+            // Initialize everything in proper order
+            initializeSalesData();
+            initializeModals();
+            attachGlobalEventListeners();
+            initializeEditMode();
+
+            console.log('Sales page initialization complete');
+        });
+
+        // Initialize sales data from server
+        function initializeSalesData() {
+            try {
+                // Parse the sales data passed from the server
+                @{
+                            var salesDataJson = System.Text.Json.JsonSerializer.Serialize(Model.SalesRecords.Select(s => new
+                            {
+                                        Id = s.Id,
+                                        SalesDate = s.SalesDate.ToString("yyyy-MM-dd"),
+                                        Lube = s.Lube,
+                                        AutoRepair = s.AutoRepair,
+                                        Tires = s.Tires,
+                                        OtherSales = s.OtherSales,
+                                        Tax = s.Tax,
+                                        CarCount = s.CarCount,
+                                        Bank = s.Bank,
+                                        Cash = s.Cash,
+                                        TotalSales = s.TotalSales,
+                                        TotalChecks = s.TotalChecks,
+                                        TotalDeposits = s.TotalDeposits,
+                                        Average = s.Average,
+                                        ShortOver = s.ShortOver,
+                                        Checks = s.Checks?.Select(c => new { CheckNumber = c.CheckNumber, Amount = c.Amount, PayerName = c.PayerName }).ToArray() ?? new object[0]
+                            }));
+                }
+                salesData = @Html.Raw(salesDataJson);
+                console.log('Sales data loaded:', salesData.length, 'records');
+
+                // Initialize checks data if editing
+                var initialChecksJson = '@Html.Raw(Model.ChecksJson ?? "[]")';
+                if (initialChecksJson && initialChecksJson !== '[]') {
+                    checksData = JSON.parse(initialChecksJson);
+                    // Ensure amounts are numbers
+                    checksData.forEach(function(check) {
+                        check.amount = parseFloat(check.amount) || 0;
+                    });
+                } else {
+                    checksData = [];
+                }
+                console.log('Initial checks data:', checksData);
+            } catch (e) {
+                console.error('Error loading sales data:', e);
+                salesData = [];
+                checksData = [];
+            }
+        }
+
+        // Initialize Bootstrap modals
+        function initializeModals() {
+            var salesModalElement = document.getElementById('salesModal');
+            var viewSalesModalElement = document.getElementById('viewSalesModal');
+
+            if (salesModalElement) {
+                salesModal = new bootstrap.Modal(salesModalElement);
+
+                salesModalElement.addEventListener('shown.bs.modal', function() {
+                    console.log('Sales modal shown');
+                    setTimeout(function() {
+                        renderChecks();
+                        calculateTotals();
+                    }, 200);
+                });
+
+                salesModalElement.addEventListener('hidden.bs.modal', function() {
+                    console.log('Sales modal hidden');
+                    resetSalesForm();
+                });
+            }
+
+            if (viewSalesModalElement) {
+                viewSalesModal = new bootstrap.Modal(viewSalesModalElement);
+            }
+        }
+
+        // Attach global event listeners
+        function attachGlobalEventListeners() {
+            // Table row click events
+            document.querySelectorAll('.clickable-row').forEach(function(row) {
+                row.addEventListener('click', function(e) {
+                    if (e.target.closest('.action-cell')) {
+                        return; // Don't trigger if clicking on action buttons
+                    }
+                    var salesId = parseInt(this.getAttribute('data-sales-id'));
+                    console.log('Row clicked, sales ID:', salesId);
+                    viewSalesRecord(salesId);
+                });
+            });
+
+            // Add check button
+            document.getElementById('addCheckBtn').addEventListener('click', function(e) {
+                e.preventDefault();
+                console.log('Add check button clicked');
+                addCheckRow();
+            });
+        }
+
+        // Calculate totals function
+        function calculateTotals() {
+            console.log('Calculating totals...');
+
+            try {
+                // Get input values using correct IDs
+                var lube = parseFloat(document.getElementById('lube').value) || 0;
+                var autoRepair = parseFloat(document.getElementById('autoRepair').value) || 0;
+                var tires = parseFloat(document.getElementById('tires').value) || 0;
+                var otherSales = parseFloat(document.getElementById('otherSales').value) || 0;
+                var tax = parseFloat(document.getElementById('tax').value) || 0;
+                var carCount = parseInt(document.getElementById('carCount').value) || 0;
+                var bank = parseFloat(document.getElementById('bank').value) || 0;
+                var cash = parseFloat(document.getElementById('cash').value) || 0;
+
+                // Calculate check totals
+                var totalChecks = 0;
+                checksData.forEach(function(check) {
+                    totalChecks += parseFloat(check.amount) || 0;
+                });
+
+                // Calculate derived values
+                var totalSales = lube + autoRepair + tires + otherSales + tax;
+                var average = carCount > 0 ? lube / carCount : 0;
+                var totalDeposits = bank + cash + totalChecks;
+                var shortOver = totalDeposits - totalSales;
+
+                console.log('Calculated values:', {
+                    totalSales: totalSales,
+                    average: average,
+                    totalChecks: totalChecks,
+                    totalDeposits: totalDeposits,
+                    shortOver: shortOver
+                });
+
+                // Update display fields
+                document.getElementById('averageDisplay').value = '$' + average.toFixed(2);
+                document.getElementById('totalSalesDisplay').value = '$' + totalSales.toFixed(2);
+                document.getElementById('totalChecksDisplay').value = '$' + totalChecks.toFixed(2);
+                document.getElementById('totalDepositsDisplay').value = '$' + totalDeposits.toFixed(2);
+
+                // Update short/over with color coding
+                var shortOverField = document.getElementById('shortOverDisplay');
+                shortOverField.value = '$' + shortOver.toFixed(2);
+                if (shortOver < 0) {
+                    shortOverField.style.color = '#dc3545'; // red
+                } else if (shortOver > 0) {
+                    shortOverField.style.color = '#198754'; // green
+                } else {
+                    shortOverField.style.color = '#000'; // black
+                }
+
+                // Update hidden field for form submission
+                updateChecksJsonField();
+
+            } catch (error) {
+                console.error('Error in calculateTotals:', error);
+            }
+        }
+
+        // Update the hidden JSON field
+        function updateChecksJsonField() {
+            var validChecks = checksData.filter(function(check) {
+                return (parseFloat(check.amount) || 0) > 0 && check.checkNumber && check.payerName;
+            });
+
+            var jsonString = JSON.stringify(validChecks);
+            document.getElementById('checksJsonField').value = jsonString;
+
+            // Enhanced debugging
+            console.log('=== UPDATE CHECKS JSON FIELD ===');
+            console.log('checksData array:', checksData);
+            console.log('validChecks after filtering:', validChecks);
+            console.log('JSON string being sent:', jsonString);
+            console.log('Hidden field value:', document.getElementById('checksJsonField').value);
+            console.log('Hidden field name attribute:', document.getElementById('checksJsonField').name);
+            console.log('=== END UPDATE ===');
+        }
+
+        // Add a new check row
+        function addCheckRow(checkNumber, amount, payerName) {
+            var index = checksData.length;
+
+            checksData.push({
+                checkNumber: checkNumber || '',
+                amount: parseFloat(amount) || 0,  // Ensure amount is a number
+                payerName: payerName || ''
+            });
+
+            renderChecks();
+            calculateTotals();
+            console.log('Check row added, total checks:', checksData.length);
+            console.log('Current checksData:', checksData);
+        }
+
+        // Update check data
+        function updateCheckData(index, field, value) {
+            if (index >= 0 && index < checksData.length) {
+                // Convert amount to number to ensure proper JSON serialization
+                if (field === 'amount') {
+                    value = parseFloat(value) || 0;
+                }
+
+                checksData[index][field] = value;
+                console.log('Updated check', index, field, ':', value, '(type:', typeof value, ')');
+                console.log('Full check object:', checksData[index]);
+                calculateTotals();
+            }
+        }
+
+        // Remove a check row
+        function removeCheckRow(index) {
+            console.log('Removing check row:', index);
+            checksData.splice(index, 1);
+            renderChecks();
+            calculateTotals();
+        }
+
+        // Render all checks
+        function renderChecks() {
+            console.log('Rendering', checksData.length, 'checks');
+            var container = document.getElementById('checksContainer');
+            container.innerHTML = '';
+
+            if (checksData.length === 0) {
+                container.innerHTML = '<p class="text-muted mb-0">No checks added</p>';
+                return;
+            }
+
+            checksData.forEach(function(check, index) {
+                var checkRow = document.createElement('div');
+                checkRow.className = 'row mb-2 check-row g-2';
+                checkRow.setAttribute('data-index', index);
+
+                checkRow.innerHTML =
+                    '<div class="col-lg-3 col-md-4 col-sm-6">' +
+                        '<label class="form-label small">Check #</label>' +
+                        '<input type="text" class="form-control form-control-sm check-number" placeholder="Check #" value="' + (check.checkNumber || '') + '" data-index="' + index + '" onchange="updateCheckData(' + index + ', \'checkNumber\', this.value)">' +
+                    '</div>' +
+                    '<div class="col-lg-3 col-md-4 col-sm-6">' +
+                        '<label class="form-label small">Amount</label>' +
+                        '<input type="number" class="form-control form-control-sm check-amount" placeholder="Amount" step="0.01" min="0" value="' + (check.amount || '') + '" data-index="' + index + '" onchange="updateCheckData(' + index + ', \'amount\', this.value)">' +
+                    '</div>' +
+                    '<div class="col-lg-4 col-md-4 col-sm-8">' +
+                        '<label class="form-label small">Payer Name</label>' +
+                        '<input type="text" class="form-control form-control-sm check-payer" placeholder="Payer Name" value="' + (check.payerName || '') + '" data-index="' + index + '" onchange="updateCheckData(' + index + ', \'payerName\', this.value)">' +
+                    '</div>' +
+                    '<div class="col-lg-2 col-md-12 col-sm-4">' +
+                        '<label class="form-label small d-none d-lg-block">&nbsp;</label>' +
+                        '<button type="button" class="btn btn-sm btn-danger w-100 remove-check-btn" data-index="' + index + '" onclick="removeCheckRow(' + index + ')">' +
+                            '<i class="fas fa-trash"></i> <span class="d-none d-md-inline">Remove</span>' +
+                        '</button>' +
+                    '</div>';
+
+                container.appendChild(checkRow);
+            });
+
+            console.log('Rendered HTML for', checksData.length, 'checks');
+        }
+
+        // Open Add Sales Modal
+        function openAddSalesModal() {
+            document.getElementById('modalTitle').textContent = 'Add Daily Sales';
+            document.getElementById('submitBtn').innerHTML = '<i class="fas fa-save"></i> Save Sales';
+            resetSalesForm();
+        }
+
+        // Reset the sales form
+        function resetSalesForm() {
+            console.log('Resetting sales form');
+
+            // Reset form fields
+            document.getElementById('salesRecordId').value = '0';
+            document.getElementById('salesDate').value = new Date().toISOString().split('T')[0];
+            document.getElementById('lube').value = '0';
+            document.getElementById('autoRepair').value = '0';
+            document.getElementById('tires').value = '0';
+            document.getElementById('otherSales').value = '0';
+            document.getElementById('tax').value = '0';
+            document.getElementById('carCount').value = '0';
+            document.getElementById('bank').value = '0';
+            document.getElementById('cash').value = '0';
+
+            // Clear validation messages
+            document.querySelectorAll('.text-danger').forEach(function(span) {
+                span.textContent = '';
+            });
+
+            // Reset checks
+            checksData = [];
+            document.getElementById('checksJsonField').value = '[]';
+
+            // Clear calculated fields
+            document.getElementById('averageDisplay').value = '';
+            document.getElementById('totalSalesDisplay').value = '';
+            document.getElementById('totalChecksDisplay').value = '';
+            document.getElementById('totalDepositsDisplay').value = '';
+            document.getElementById('shortOverDisplay').value = '';
+
+            // Render empty checks
+            renderChecks();
+        }
+
+        // View sales functionality
+        function viewSalesRecord(salesId) {
+            console.log('Viewing sales record:', salesId);
+            currentViewSalesId = salesId;
+
+            var sales = salesData.find(function(s) { return s.Id === salesId; });
+
+            if (sales) {
+                document.getElementById('viewSalesDate').textContent = new Date(sales.SalesDate).toLocaleDateString();
+                document.getElementById('viewLube').textContent = '$' + sales.Lube.toFixed(2);
+                document.getElementById('viewAutoRepair').textContent = '$' + sales.AutoRepair.toFixed(2);
+                document.getElementById('viewTires').textContent = '$' + sales.Tires.toFixed(2);
+                document.getElementById('viewOtherSales').textContent = '$' + sales.OtherSales.toFixed(2);
+                document.getElementById('viewTax').textContent = '$' + sales.Tax.toFixed(2);
+                document.getElementById('viewCarCount').textContent = sales.CarCount;
+                document.getElementById('viewAverage').textContent = '$' + sales.Average.toFixed(2);
+                document.getElementById('viewTotalSales').textContent = '$' + sales.TotalSales.toFixed(2);
+                document.getElementById('viewBank').textContent = '$' + sales.Bank.toFixed(2);
+                document.getElementById('viewCash').textContent = '$' + sales.Cash.toFixed(2);
+                document.getElementById('viewTotalChecks').textContent = '$' + sales.TotalChecks.toFixed(2);
+                document.getElementById('viewTotalDeposits').textContent = '$' + sales.TotalDeposits.toFixed(2);
+
+                var shortOverElement = document.getElementById('viewShortOver');
+                shortOverElement.textContent = '$' + sales.ShortOver.toFixed(2);
+                if (sales.ShortOver < 0) {
+                    shortOverElement.style.color = '#dc3545';
+                } else if (sales.ShortOver > 0) {
+                    shortOverElement.style.color = '#198754';
+                } else {
+                    shortOverElement.style.color = '#000';
+                }
+
+                // Show checks if any
+                var checksContainer = document.getElementById('viewChecksContainer');
+                if (sales.Checks && sales.Checks.length > 0) {
+                    var checksHtml = '<div class="table-responsive"><table class="table table-sm"><thead><tr><th>Check #</th><th>Amount</th><th>Payer</th></tr></thead><tbody>';
+                    sales.Checks.forEach(function(check) {
+                        checksHtml += '<tr><td>' + check.CheckNumber + '</td><td>$' + check.Amount.toFixed(2) + '</td><td>' + check.PayerName + '</td></tr>';
+                    });
+                    checksHtml += '</tbody></table></div>';
+                    checksContainer.innerHTML = checksHtml;
+                } else {
+                    checksContainer.innerHTML = '<p class="text-muted mb-0">No checks for this transaction</p>';
+                }
+
+                viewSalesModal.show();
+            }
+        }
+
+        // Edit sales functionality
+        function editSalesRecord(salesId) {
+            console.log('Editing sales record:', salesId);
+            var currentUrl = new URL(window.location);
+            var params = new URLSearchParams(currentUrl.search);
+            params.set('handler', 'Edit');
+            params.set('id', salesId);
+            window.location.href = currentUrl.pathname + '?' + params.toString();
+        }
+
+        // Edit from view
+        function editFromView() {
+            if (currentViewSalesId > 0) {
+                viewSalesModal.hide();
+                setTimeout(function() {
+                    editSalesRecord(currentViewSalesId);
+                }, 300);
+            }
+        }
+
+        // Initialize edit mode if needed
+        function initializeEditMode() {
+            var isEditMode = @(Model.SalesRecord.Id != 0 ? "true" : "false");
+            if (isEditMode) {
+                setTimeout(function() {
+                    document.getElementById('modalTitle').textContent = 'Edit Sales';
+                    document.getElementById('submitBtn').innerHTML = '<i class="fas fa-save"></i> Update Sales';
+                    salesModal.show();
+
+                    // Ensure everything is set up after modal is shown
+                    setTimeout(function() {
+                        renderChecks();
+                        calculateTotals();
+                    }, 300);
+                }, 200);
+            }
+        }
+
+        // Make functions globally available
+        window.viewSalesRecord = viewSalesRecord;
+        window.editSalesRecord = editSalesRecord;
+        window.editFromView = editFromView;
+        window.calculateTotals = calculateTotals;
+        window.addCheckRow = addCheckRow;
+        window.updateCheckData = updateCheckData;
+        window.removeCheckRow = removeCheckRow;
+        window.openAddSalesModal = openAddSalesModal;
+
+        // Debug function for console testing (call from browser console: addTestCheck())
+        window.addTestCheck = function() {
+            console.log('Adding test check via console...');
+            addCheckRow('TEST123', 100.50, 'Test Payer');
+        };
+
+        // Add form submission debugging
+        var salesForm = document.getElementById('salesForm');
+        if (salesForm) {
+            salesForm.addEventListener('submit', function(e) {
+                console.log('=== SALES FORM SUBMISSION DEBUG ===');
+                console.log('checksData array:', checksData);
+                console.log('ChecksJson hidden field value:', document.getElementById('checksJsonField').value);
+
+                // Validate that we have the data we expect
+                if (checksData.length > 0) {
+                    console.log('✓ checksData has', checksData.length, 'items');
+                    checksData.forEach(function(check, index) {
+                        console.log(`Check ${index}:`, {
+                            checkNumber: check.checkNumber,
+                            amount: check.amount,
+                            payerName: check.payerName
+                        });
+                    });
+                } else {
+                    console.log('⚠️ checksData is empty!');
+                }
+
+                // Re-update the JSON field just before submission
+                updateChecksJsonField();
+                console.log('Final ChecksJson value:', document.getElementById('checksJsonField').value);
+                console.log('=== END SUBMISSION DEBUG ===');
+            });
+        }
+    </script>
+
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
+
+<style>
+    /* Responsive improvements */
+    .container-fluid {
+        max-width: 100%;
+        padding-left: 15px;
+        padding-right: 15px;
+    }
+
+    /* Table responsive enhancements */
+    .table-responsive {
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        border-radius: 0.375rem;
+    }
+
+    .table {
+        margin-bottom: 0;
+        min-width: 800px;
+    }
+
+        .table th {
+            white-space: nowrap;
+            font-size: 0.9rem;
+            padding: 0.75rem 0.5rem;
+            border-top: none;
+            position: relative;
+        }
+
+        .table td {
+            vertical-align: middle;
+            font-size: 0.9rem;
+            padding: 0.75rem 0.5rem;
+        }
+
+    /* Sticky first column on mobile */
+    .sticky-col {
+        position: sticky;
+        left: 0;
+        z-index: 1;
+        background-color: white !important;
+        min-width: 120px;
+    }
+
+    .table-dark .sticky-col {
+        background-color: var(--bs-dark) !important;
+        color: white;
+    }
+
+    /* Card improvements */
+    .card {
+        box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+        transition: transform 0.15s ease-in-out;
+        border: 1px solid rgba(0, 0, 0, 0.125);
+    }
+
+        .card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+        }
+
+    /* Modal improvements */
+    .modal-xl {
+        max-width: min(1140px, 95vw);
+    }
+
+    .modal-dialog-scrollable .modal-body {
+        max-height: 70vh;
+    }
+
+    /* Button improvements */
+    .btn-group-vertical {
+        width: 100%;
+    }
+
+        .btn-group-vertical .btn {
+            border-radius: 0.375rem !important;
+            margin-bottom: 0.25rem;
+        }
+
+            .btn-group-vertical .btn:last-child {
+                margin-bottom: 0;
+            }
+
+    /* Form improvements */
+    .form-control-sm {
+        font-size: 0.875rem;
+    }
+
+    #checksContainer {
+        min-height: 60px;
+        background-color: #f8f9fa;
+    }
+
+    /* Responsive table column visibility */
+    @@media (max-width: 1199.98px) {
+        .d-none.d-lg-table-cell {
+            display: none !important;
+        }
+    }
+
+    @@media (max-width: 767.98px) {
+        .d-none.d-md-table-cell {
+            display: none !important;
+        }
+
+        .sticky-col {
+            min-width: 100px;
+        }
+
+        .table th,
+        .table td {
+            padding: 0.5rem 0.25rem;
+            font-size: 0.8rem;
+        }
+
+        .card-body h4 {
+            font-size: 1.1rem;
+        }
+
+        .card-body h6 {
+            font-size: 0.9rem;
+        }
+    }
+
+    @@media (max-width: 575.98px) {
+        .container-fluid {
+            padding-left: 10px;
+            padding-right: 10px;
+        }
+
+        .modal-dialog {
+            margin: 0.5rem;
+        }
+
+        .table {
+            min-width: 600px;
+        }
+
+        .sticky-col {
+            min-width: 80px;
+        }
+
+        .table th,
+        .table td {
+            padding: 0.375rem 0.25rem;
+            font-size: 0.75rem;
+        }
+
+        .btn-sm {
+            font-size: 0.75rem;
+            padding: 0.25rem 0.5rem;
+        }
+
+        .badge {
+            font-size: 0.7rem;
+        }
+    }
+
+    /* Print styles */
+    @@media print {
+        .btn,
+        .action-cell,
+        #filterSection,
+        .mb-3.d-flex {
+            display: none !important;
+        }
+
+        .table-responsive {
+            overflow: visible;
+        }
+
+        .sticky-col {
+            position: static;
+        }
+    }
+
+    /* Accessibility improvements */
+    .clickable-row:hover {
+        background-color: rgba(0, 0, 0, 0.05);
+        cursor: pointer;
+    }
+
+    .clickable-row:focus {
+        outline: 2px solid #0d6efd;
+        outline-offset: -2px;
+    }
+
+    /* Loading states */
+    .loading {
+        opacity: 0.6;
+        pointer-events: none;
+    }
+
+    /* Error states */
+    .has-error .form-control {
+        border-color: #dc3545;
+        box-shadow: 0 0 0 0.2rem rgba(220, 53, 69, 0.25);
+    }
+
+    /* Enhanced visual hierarchy */
+    .border-bottom {
+        border-bottom: 2px solid #dee2e6 !important;
+    }
+
+    .fs-5 {
+        font-size: 1.25rem !important;
+    }
+
+    /* Better spacing */
+    .g-3 > * {
+        margin-bottom: 1rem;
+    }
+</style>
